@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos de Opcionais | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+    <div class="app-container">
+      <aside class="sidebar">
+    <div class="sidebar-header">
+        <h3>Lanchonete Admin</h3>
+    </div>
+    
+<nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Grupos de Opcionais</h1>
+                </div>
+                <div class="header-user">
+                    <span id="user-email">Carregando...</span>
+                    <button id="logoutButton" class="btn-logout">Sair</button>
+                </div>
+            </header>
+            <main class="main-content">
+                <div class="opcionais-container">
+                    <!-- Coluna da Esquerda: Lista de Grupos -->
+                    <div class="grupos-list-wrapper card">
+                        <div class="content-header">
+                            <h2>Grupos</h2>
+                            <button class="btn btn-primary" id="add-group-btn">Novo Grupo</button>
+                        </div>
+                        <ul id="grupos-list" class="list-group">
+                            <!-- Grupos serão carregados aqui -->
+                        </ul>
+                    </div>
+
+                    <!-- Coluna da Direita: Gerenciador de Itens -->
+                    <div class="itens-manager-wrapper card">
+                        <div id="itens-manager" class="hidden">
+                            <div class="content-header">
+                                <h2 id="itens-group-title">Itens do Grupo</h2>
+                            </div>
+                            <form id="add-item-form" class="form-inline">
+                                <div class="form-group">
+                                    <input type="text" id="item-name" placeholder="Nome do item (Ex: Bacon)" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" step="0.01" id="item-price" placeholder="Preço (R$ 0.00 se for grátis)" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Adicionar Item</button>
+                            </form>
+                            <div class="table-container mt-4">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Preço</th>
+                                            <th style="width: 100px;">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itens-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="no-group-selected" class="placeholder-text">
+                            <p>Selecione um grupo à esquerda para ver ou adicionar seus itens.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar GRUPO -->
+    <div id="group-modal" class="modal-container hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="group-modal-title">Novo Grupo de Opcionais</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="group-form">
+                    <input type="hidden" id="group-id">
+                    <div class="form-group">
+                        <label for="group-name">Nome do Grupo</label>
+                        <input type="text" id="group-name" required placeholder="Ex: Turbine seu Lanche">
+                    </div>
+                    <div class="form-group">
+                        <label for="group-selection-type">Tipo de Seleção</label>
+                        <select id="group-selection-type" required>
+                            <option value="unica">Única (cliente só pode escolher 1 item)</option>
+                            <option value="multipla">Múltipla (cliente pode escolher vários itens)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                         <label class="checkbox-label"><input type="checkbox" id="group-required"> Obrigatório?</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Grupo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Scripts Modulares -->
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/opcionais.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

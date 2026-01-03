@@ -1,0 +1,5 @@
+node_modules
+*.env
+chave-firebase.json
+backend/chave-firebase.json
+*.log

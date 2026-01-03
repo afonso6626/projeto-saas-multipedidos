@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <div class="app-container">
+       <aside class="sidebar">
+    <div class="sidebar-header">
+        <h3>Lanchonete Admin</h3>
+    </div>
+    
+   <nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="header-user">
+                    <span id="user-email">Carregando...</span>
+                    <button id="logoutButton" class="btn-logout">Sair</button>
+                </div>
+            </header>
+            <main class="main-content">
+                <!-- INÍCIO DAS MODIFICAÇÕES: Filtros do Dashboard -->
+                <div class="card">
+                    <div class="filters-container">
+                        <div class="filter-group">
+                             <label for="period-select">Visualizar Período:</label>
+                             <select id="period-select" class="form-control">
+                                 <option value="today">Hoje</option>
+                                 <option value="7days">Últimos 7 dias</option>
+                                 <option value="this_month" selected>Este Mês</option>
+                                 <option value="last_month">Mês Passado</option>
+                             </select>
+                        </div>
+                         <div class="filter-group">
+                            <label for="start-date">De:</label>
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                        <div class="filter-group">
+                            <label for="end-date">Até:</label>
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <!-- FIM DAS MODIFICAÇÕES: Filtros do Dashboard -->
+
+                <!-- KPIs (Indicadores) -->
+                <div class="dashboard-grid kpi-grid mt-4">
+                    <!-- NOVO CARD ADICIONADO -->
+                    <a href="pedidos.html" class="card card-link new-orders-card">
+                        <h4>Novos Pedidos</h4>
+                        <p class="card-value" id="kpi-novos-pedidos">0</p>
+                        <span class="card-subtitle">Aguardando preparo</span>
+                    </a>
+                    <div class="card">
+                        <h4>Faturamento no Período</h4>
+                        <p class="card-value" id="kpi-faturamento">R$ 0,00</p>
+                    </div>
+                    <div class="card">
+                        <h4>Pedidos no Período</h4>
+                        <p class="card-value" id="kpi-pedidos">0</p>
+                    </div>
+                    <div class="card">
+                        <h4>Ticket Médio</h4>
+                        <p class="card-value" id="kpi-ticket-medio">R$ 0,00</p>
+                    </div>
+                    <div class="card">
+                        <h4>Novos Clientes</h4>
+                        <p class="card-value" id="kpi-novos-clientes">0</p>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="dashboard-grid mt-4">
+                    <div class="card dashboard-grid-full-width">
+                        <h4>Faturamento Diário</h4>
+                        <div class="chart-container">
+                            <canvas id="faturamento-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Vendas por Hora do Dia</h4>
+                        <div class="chart-container">
+                            <canvas id="vendas-hora-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h4>Formas de Pagamento</h4>
+                        <div class="chart-container">
+                            <canvas id="pagamentos-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Tabela de Produtos Mais Vendidos -->
+                <div class="card mt-4">
+                     <h4>Produtos Mais Vendidos no Período</h4>
+                     <div class="table-container">
+                         <table>
+                             <thead>
+                                 <tr>
+                                     <th>Produto</th>
+                                     <th>Quantidade Vendida</th>
+                                 </tr>
+                             </thead>
+                             <tbody id="top-produtos-table"></tbody>
+                         </table>
+                     </div>
+                </div>
+
+                <!-- NOVA TABELA DE TOP CLIENTES ADICIONADA -->
+                <div class="card mt-4">
+                     <h4>Top 10 Clientes (por valor gasto)</h4>
+                     <div class="table-container">
+                         <table>
+                             <thead>
+                                 <tr>
+                                     <th>Cliente</th>
+                                     <th>Pedidos</th>
+                                     <th>Total Gasto</th>
+                                 </tr>
+                             </thead>
+                             <tbody id="top-clientes-table"></tbody>
+                         </table>
+                     </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- Script da Biblioteca de Gráficos (Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Scripts Modulares -->
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/dashboard.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

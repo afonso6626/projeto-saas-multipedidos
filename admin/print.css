@@ -1,0 +1,41 @@
+/* Estilos para a impressão de pedidos (cupom) */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #print-area, #print-area * {
+        visibility: visible;
+    }
+    #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    width: 280px; /* Largura comum para impressoras térmicas de 80mm */
+    margin: 0 auto;
+    font-size: 12px;
+}
+h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.section {
+    border-top: 1px dashed #000;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+.total {
+    font-weight: bold;
+    font-size: 14px;
+}
+p { margin-bottom: 5px; }

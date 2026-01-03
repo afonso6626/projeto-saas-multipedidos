@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxas de Entrega | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    
+    <!-- BIBLIOTECAS DO MAPA (LEAFLET) - GRÁTIS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <style>
+        #map-container { height: 500px; width: 100%; border-radius: 8px; border: 2px solid var(--border-color); margin-top: 15px; z-index: 1;}
+    </style>
+</head>
+<body>
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+    <div class="app-container">
+    <aside class="sidebar">
+    <div class="sidebar-header">
+        <h3>Lanchonete Admin</h3>
+    </div>
+    
+  <nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title"><h1>Gerenciar Taxas e Mapa</h1></div>
+                <div class="header-user"><span id="user-email">...</span><button id="logoutButton" class="btn-logout">Sair</button></div>
+            </header>
+            <main class="main-content">
+                
+                <!-- CARD 1: MAPA INTERATIVO (IGUAL AO DO VÍDEO) -->
+                <div class="card mb-4" style="margin-bottom: 30px;">
+                    <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px;">
+                        <h4>Áreas de Entrega no Mapa</h4>
+                        <p class="text-secondary" style="font-size: 0.9rem;">
+                            Use as ferramentas no canto esquerdo do mapa para desenhar polígonos. Defina o preço para cada área desenhada.
+                        </p>
+                        
+                        <!-- O MAPA VAI AQUI -->
+                        <div id="map-container"></div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                            * Dica: Para apagar uma área, clique na lixeira no mapa e depois na área que deseja remover.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: TABELA DE PREÇOS POR DISTÂNCIA -->
+                <div class="card mb-4" style="margin-bottom: 30px;">
+                     <!-- ... (Conteúdo mantido do passo anterior, apenas escondi pra focar no mapa) ... -->
+                     <h4>Tabela de Preços por Distância (Plano B)</h4>
+                     <p class="text-secondary">Usado se o cliente estiver fora das áreas desenhadas acima.</p>
+                     <form id="km-range-form" class="form-inline" style="background-color: var(--secondary-color); padding: 15px; border-radius: 8px; gap: 10px; align-items: flex-end;">
+                        <div class="form-group" style="margin: 0;"><label style="font-size: 0.8rem;">De (km)</label><input type="number" id="km-min" step="0.1" min="0" placeholder="0" style="width: 100px;" required></div>
+                        <div class="form-group" style="margin: 0;"><label style="font-size: 0.8rem;">Até (km)</label><input type="number" id="km-max" step="0.1" min="0" placeholder="5" style="width: 100px;" required></div>
+                        <div class="form-group" style="margin: 0;"><label style="font-size: 0.8rem;">Valor (R$)</label><input type="number" id="km-value" step="0.50" placeholder="10,00" required></div>
+                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                    </form>
+                    <div class="table-container mt-4">
+                        <table><thead><tr><th>De</th><th>Até</th><th>Valor</th><th style="width: 100px;">Ação</th></tr></thead><tbody id="km-ranges-table-body"></tbody></table>
+                    </div>
+                </div>
+
+                <!-- CARD 3: BAIRROS (MANUAL) -->
+                <div class="card">
+                    <h4>Taxas por Bairro (Manual)</h4>
+                    <form id="delivery-tax-form" class="form-inline mt-4">
+                        <div class="form-group"><input type="text" id="bairro-name" placeholder="Nome do Bairro" required></div>
+                        <div class="form-group"><input type="number" step="0.50" id="bairro-tax" placeholder="Taxa (R$)" required></div>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </form>
+                    <div class="table-container mt-4">
+                        <table><thead><tr><th>Bairro</th><th>Taxa de Entrega</th><th style="width: 100px;">Ações</th></tr></thead><tbody id="delivery-taxes-table-body"></tbody></table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Scripts do Mapa (Leaflet) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/taxas.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

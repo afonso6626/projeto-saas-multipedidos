@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* Pequeno ajuste para o card de link ser responsivo no celular */
+        @media (max-width: 600px) {
+            .share-link-container {
+                flex-direction: column;
+            }
+            .share-link-container button, 
+            .share-link-container a {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loader" class="loader-container hidden"><div class="loader"></div></div>
+    
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Lanchonete Admin</h3>
+            </div>
+            
+        <nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+        </aside>
+        
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title"><h1>Configurações Gerais</h1></div>
+                <div class="header-user"><span id="user-email">...</span><button id="logoutButton" class="btn-logout">Sair</button></div>
+            </header>
+            
+            <main class="main-content">
+                <div class="tabs-container">
+                    <div class="tabs-nav">
+                        <button class="tab-link active" data-tab="tab-info">Informações da Loja</button>
+                        <button class="tab-link" data-tab="tab-horarios">Horário de Funcionamento</button>
+                        <button class="tab-link" data-tab="tab-outros">Outros / Sistema</button>
+                    </div>
+
+                    <!-- ABA 1: INFORMAÇÕES, VISUAL E MARKETING -->
+                    <div id="tab-info" class="tab-content active">
+                        
+                        <!-- NOVO: CARD DE LINK DE COMPARTILHAMENTO -->
+                        <div class="card" style="background-color: #e8f0fe; border: 1px solid #b8d0f5; margin-bottom: 25px;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 10px;">🚀 Link do seu Cardápio Digital</h4>
+                            <p style="font-size: 0.9rem; color: #555; margin-bottom: 15px;">
+                                Copie este link e coloque na Bio do Instagram, Facebook ou envie no WhatsApp.
+                            </p>
+                            
+                            <div class="share-link-container" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <input type="text" id="link-loja-input" class="form-control" readonly style="background: #fff; color: #333; font-weight: 600; flex-grow: 1;">
+                                
+                                <button type="button" id="btn-copy-link" class="btn btn-primary" style="min-width: 100px;">
+                                    📋 Copiar
+                                </button>
+                                
+                                <a id="btn-open-link" href="#" target="_blank" class="btn btn-secondary" style="min-width: 80px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                    🔗 Abrir
+                                </a>
+                            </div>
+                        </div>
+                        <!-- FIM DO NOVO CARD -->
+
+                        <div class="card">
+                            <form id="info-loja-form">
+                                <h4 style="color:var(--primary-color); border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:20px;">
+                                    🏠 Dados Cadastrais
+                                </h4>
+                                <div class="form-group">
+                                    <label for="loja-nome">Nome da Lanchonete</label>
+                                    <input type="text" id="loja-nome" placeholder="Nome do seu negócio" class="form-control">
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="loja-endereco">Endereço Completo</label>
+                                    <input type="text" id="loja-endereco" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="loja-telefone">Telefone / WhatsApp (Usado para o link)</label>
+                                    <input type="text" id="loja-telefone" class="form-control">
+                                </div>
+
+                                <h4 style="color:var(--primary-color); border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-top:30px; margin-bottom:20px;">
+                                    🎨 Visual do App (Links de Imagem)
+                                </h4>
+                                <div class="form-group">
+                                    <label>URL da Logo (Quadrada)</label>
+                                    <input type="text" id="loja-logo-url" class="form-control" placeholder="https://...">
+                                    <small style="color:var(--text-light)">Copie o link da imagem da sua logo e cole aqui.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>URL da Capa/Banner (Retangular)</label>
+                                    <input type="text" id="loja-cover-url" class="form-control" placeholder="https://...">
+                                    <small style="color:var(--text-light)">Imagem de fundo do topo do cardápio.</small>
+                                </div>
+
+                                <h4 style="margin: 30px 0 20px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                                    📍 Localização (GPS)
+                                </h4>
+                                <div class="form-group">
+                                    <label>Ponto de Origem (Usado para calcular taxas de entrega por KM)</label>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
+                                        <div>
+                                            <label style="font-size: 0.8rem;">Latitude</label>
+                                            <input type="text" id="loja-lat" placeholder="-23.5505" class="form-control">
+                                        </div>
+                                        <div>
+                                            <label style="font-size: 0.8rem;">Longitude</label>
+                                            <input type="text" id="loja-lng" placeholder="-46.6333" class="form-control">
+                                        </div>
+                                        <button type="button" id="btn-get-coords" class="btn btn-secondary" style="height: 42px;">📍 Pegar Minha Posição</button>
+                                    </div>
+                                </div>
+
+                                <h4 style="margin: 30px 0 20px 0; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                                    📢 Marketing
+                                </h4>
+                                <div class="form-group">
+                                    <label>ID do Facebook Pixel</label>
+                                    <input type="text" id="loja-pixel-id" placeholder="Ex: 1234567890" class="form-control">
+                                    <small style="color: var(--text-light);">Rastreia: Visualização (PageView), Adição ao Carrinho (AddToCart) e Compras (Purchase).</small>
+                                </div>
+
+                                <div class="form-footer"><button type="submit" class="btn btn-primary">Salvar Informações</button></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- ABA 2: HORÁRIOS -->
+                    <div id="tab-horarios" class="tab-content">
+                        <div class="card">
+                            <h4 style="margin-bottom: 20px; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                                🕒 Definir Horários de Abertura
+                            </h4>
+                            <form id="horarios-form">
+                                <div class="horarios-grid"></div>
+                                <div class="form-footer mt-4"><button type="submit" class="btn btn-primary">Salvar Horários</button></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- ABA 3: OUTROS / SISTEMA (TEMA, ESTOQUE, MÍNIMO) -->
+                    <div id="tab-outros" class="tab-content">
+                        <div class="card">
+                            <!-- Formulário separado para a aba Outros -->
+                            <form id="outros-config-form">
+                                <h4 style="color:var(--primary-color); border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:20px;">
+                                    💰 Regras de Venda
+                                </h4>
+                                <div class="form-group">
+                                    <label>Valor Mínimo do Pedido (R$)</label>
+                                    <input type="number" id="loja-min-pedido" step="0.01" placeholder="0.00" class="form-control" style="font-weight:bold;">
+                                    <small style="color:var(--text-light)">Bloqueia pedidos abaixo deste valor no carrinho.</small>
+                                </div>
+
+                                <h4 style="margin-top:30px; color:var(--primary-color); border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:20px;">
+                                    🎨 Aparência e Comportamento
+                                </h4>
+                                <div class="form-group">
+                                    <label>Tema</label>
+                                    <div class="radio-group-container">
+                                        <label class="radio-card"><input type="radio" name="theme-choice" value="light" checked><span class="radio-card-content">☀️ Claro</span></label>
+                                        <label class="radio-card"><input type="radio" name="theme-choice" value="dark"><span class="radio-card-content">🌙 Escuro</span></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Cardápio e Estoque</label>
+                                    <div class="radio-group-container">
+                                        <label class="radio-card"><input type="radio" name="estoque-behavior" value="mostrar" checked><span class="radio-card-content">Mostrar como "Esgotado" (Cinza)</span></label>
+                                        <label class="radio-card"><input type="radio" name="estoque-behavior" value="ocultar"><span class="radio-card-content">Esconder do cardápio</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-4" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        <label class="switch"><input type="checkbox" id="auto-approve"><span class="slider"></span></label>
+                                        <div><span style="font-weight: 600;">Aprovação Automática</span><small style="display:block;">Pedidos "Novos" vão direto para "Em Preparo".</small></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-footer"><button type="submit" class="btn btn-primary">Salvar Configurações</button></div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/configuracoes.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

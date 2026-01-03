@@ -1,0 +1,2020 @@
+/* ========= INÍCIO DO BLOCO PARA SUBSTITUIR NO style.css ========= */
+
+/* GERAL E VARIÁVEIS DE COR (COM MODO ESCURO) */
+/* ========= BLOCO 1: SUBSTITUA O INÍCIO DO SEU CSS POR ISTO ========= */
+
+/* GERAL E VARIÁVEIS DE COR (COM MODO ESCURO) */
+:root {
+    /* MODO CLARO (PADRÃO) */
+    --primary-color: #6a5af9;
+    --secondary-color: #f0f2f5;
+    --background-color: #f8f9fa;
+    --card-background: #ffffff;
+    --text-color: #343a40;
+    --text-light: #6c757d;
+    --border-color: #dee2e6;
+    --white-color: #ffffff;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
+    --sidebar-width: 260px;
+    --header-height: 70px;
+}
+
+body.dark-mode {
+    /* MODO ESCURO (SOBRESCRITAS) */
+    --primary-color: #7b6efc;
+    --secondary-color: #2a2e34;
+    --background-color: #1c1e22;
+    --card-background: #24272c;
+    --text-color: #e4e6eb;
+    --text-light: #b0b3b8;
+    --border-color: #3a3f44;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* LOADER */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo genérico que funciona nos dois modos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.loader {
+    border: 8px solid var(--secondary-color);
+    border-top: 8px solid var(--primary-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.hidden {
+    display: none !important;
+}
+
+
+/* PÁGINA DE LOGIN */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--secondary-color);
+}
+.login-box {
+    background: var(--card-background);
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+.login-box h2 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+.login-box p {
+    margin-bottom: 2rem;
+    color: var(--text-light);
+}
+
+/* ========= FIM DO BLOCO 1 ========= */
+
+/* FORMULÁRIOS */
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.2);
+}
+.error-message {
+    color: var(--danger-color);
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    min-height: 1.2rem;
+}
+
+/* BOTÕES */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.btn-primary:hover {
+    opacity: 0.9;
+}
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background-color: #e2e6ea;
+}
+#loginButton { /* Botão de login específico */
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#loginButton:hover {
+    opacity: 0.9;
+}
+
+/* LAYOUT PRINCIPAL DO PAINEL */
+.app-container {
+    display: flex;
+}
+/* ========= ATUALIZAÇÃO DA SIDEBAR (COM SCROLL BONITO) ========= */
+/* ============================================================
+   SIDEBAR PREMIUM (ESTILO SAAS/MULTIPEDIDOS)
+   ============================================================ */
+
+:root {
+    /* Cores Específicas da Sidebar para garantir contraste */
+    --sidebar-bg: #1e1e2d;         /* Fundo Azul/Preto Profundo */
+    --sidebar-hover: #2b2b40;      /* Cor ao passar o mouse */
+    --sidebar-active: #ea1d2c;     /* Vermelho iFood/Marca */
+    --sidebar-text: #9899ac;       /* Texto cinza claro */
+    --sidebar-text-focus: #ffffff; /* Texto branco ao focar */
+    --sidebar-submenu-bg: #151521; /* Fundo do submenu (mais escuro) */
+    --sidebar-width: 260px;
+}
+
+/* Container Principal da Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 500;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-right: none; /* Remove borda antiga */
+}
+
+/* Cabeçalho (Logo/Nome da Loja) */
+.sidebar-header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.1); /* Levemente mais escuro que o fundo */
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+}
+
+.sidebar-header h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Área de Navegação (Scroll) */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+/* Scrollbar personalizada fina e escura */
+.sidebar-nav::-webkit-scrollbar { width: 5px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+
+/* --- ESTILO DOS LINKS PRINCIPAIS --- */
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav > ul > li {
+    margin-bottom: 2px; /* Espacinho mínimo entre itens */
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Joga a setinha pro final */
+    padding: 12px 25px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    border-left: 4px solid transparent; /* Borda invisível para o hover */
+}
+
+/* Ícone Emoji ou SVG (span) */
+.sidebar-nav a span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Efeito Hover (Passar o mouse) */
+.sidebar-nav a:hover {
+    background-color: var(--sidebar-hover);
+    color: var(--sidebar-text-focus);
+    border-left-color: var(--sidebar-active); /* Borda vermelha aparece */
+}
+
+/* Link Ativo (Página Atual - Nível Principal) */
+.sidebar-nav a.active-parent {
+    background-color: var(--sidebar-hover);
+    color: #fff;
+    border-left-color: var(--sidebar-active);
+}
+
+/* Setinha (Arrow) */
+.arrow-icon {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    opacity: 0.5;
+}
+
+/* Girar a seta quando o menu está aberto */
+.nav-item.open > a .arrow-icon {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: var(--sidebar-active);
+}
+
+/* --- ESTILO DO SUBMENU (DROPDOWN) --- */
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--sidebar-submenu-bg);
+    transition: max-height 0.4s cubic-bezier(0.645, 0.045, 0.355, 1); /* Animação suave */
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* Quando a classe .open é adicionada pelo JS, o menu abre */
+.nav-item.open .sidebar-submenu {
+    max-height: 500px; /* Altura suficiente para caber os itens */
+}
+
+/* Links dentro do Submenu */
+.sidebar-submenu li a {
+    padding: 10px 20px 10px 50px; /* Recuo maior na esquerda */
+    font-size: 0.85rem;
+    border-left: none; /* Sem borda colorida nos filhos */
+    color: var(--sidebar-text);
+}
+
+.sidebar-submenu li a:hover {
+    color: var(--sidebar-active); /* Fica vermelho/cor da marca */
+    background-color: transparent; /* Sem fundo no hover do submenu */
+    transform: translateX(5px); /* Move um pouquinho para a direita */
+}
+
+/* Link Ativo no Submenu (Página que você está) */
+.sidebar-submenu a.active {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Bolinha decorativa antes do item do submenu */
+.sidebar-submenu li a::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: -15px;
+    opacity: 0.5;
+}
+
+/* COMPONENTES DO DASHBOARD */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.card {
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.card h4 {
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.card .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* COMPONENTES DA PÁGINA CARDÁPIO */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.table-container {
+    background: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+th {
+    background-color: var(--secondary-color);
+    font-weight: 600;
+}
+tbody tr:last-child td {
+    border-bottom: none;
+}
+.btn-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+/* MODAL */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal {
+    background: var(--card-background);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.modal-header h2 {
+    font-size: 1.5rem;
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+.modal-body {
+    padding: 1.5rem;
+}
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    gap: 0.5rem;
+}/* Estilos para os novos botões de Ação */
+.btn-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: opacity 0.3s;
+}
+.btn-action:hover {
+    opacity: 0.7;
+}
+
+.btn-edit {
+    color: var(--primary-color);
+}
+
+.btn-delete {
+    color: var(--danger-color);
+}/* --- ESTILOS DO PAINEL KANBAN DE PEDIDOS --- */
+.kanban-board {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto; /* Permite rolar horizontalmente se não couber */
+    padding-bottom: 1rem;
+}
+
+.kanban-column {
+    flex: 1;
+    min-width: 280px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-column h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    text-align: center;
+}
+
+.kanban-column-content {
+    padding: 0.5rem;
+    flex-grow: 1;
+    min-height: 400px;
+    overflow-y: auto;
+}
+
+.order-card {
+    background-color: var(--white-color);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    cursor: pointer;
+    border-left: 5px solid var(--primary-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.order-card h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+.order-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+}
+.order-card .order-total {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 0.5rem;
+}
+
+/* Coluna "Novos" com destaque */
+#column-novo .order-card {
+    border-left-color: var(--success-color);
+}
+/* Coluna "Finalizados" com visual mais neutro */
+#column-finalizado .order-card {
+    border-left-color: var(--text-light);
+    opacity: 0.8;
+}
+
+/* Detalhes do Pedido no Modal */
+.order-details-section {
+    margin-bottom: 1.5rem;
+}
+.order-details-section h5 {
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+.order-details-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+.order-details-item span:first-child {
+    color: var(--text-light);
+}
+.order-details-item span:last-child {
+    font-weight: 600;
+}
+.order-items-list li {
+    list-style-type: none;
+    margin-bottom: 0.5rem;
+}/* --- ESTILOS DO CONTROLE DE STATUS DA LOJA --- */
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* Divide o header em 3 seções */
+    gap: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.store-status {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.store-status .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+/* Estado: Loja Aberta */
+.status-open {
+    background-color: #e9f7ef;
+    color: var(--success-color);
+}
+.status-open .status-dot {
+    background-color: var(--success-color);
+}
+
+/* Estado: Loja Fechada */
+.status-closed {
+    background-color: #fceeee;
+    color: var(--danger-color);
+}
+.status-closed .status-dot {
+    background-color: var(--danger-color);
+}
+
+/* Botão de Fechar específico */
+.btn-danger {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+}
+.btn-danger:hover {
+    opacity: 0.8;
+}
+
+/* Banner de aviso de loja fechada */
+.store-closed-banner {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+}/* --- ESTILOS PARA PÁGINA DE CONFIGURAÇÕES --- */
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.form-inline {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.form-inline .form-group {
+    flex-grow: 1;
+}
+
+.form-inline button {
+    /* O botão encolhe para o tamanho do conteúdo */
+    flex-grow: 0; 
+}/* --- ESTILOS PARA PÁGINA DE CUPONS --- */
+.status-badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white-color);
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: var(--success-color);
+}
+
+.status-badge.inactive {
+    background-color: var(--text-light);
+}/* --- ESTILOS PÁGINA GRUPOS DE OPCIONAIS --- */
+.opcionais-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.list-group {
+    list-style-type: none;
+    margin-top: 1rem;
+}
+
+.list-group-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: var(--secondary-color);
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.list-group-item.active .btn-action {
+    color: var(--white-color);
+}
+
+.placeholder-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 300px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+}.checklist-container {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: 6px;
+}/* --- ESTILOS PARA O DASHBOARD E GRÁFICOS --- */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-height: 400px; /* Altura máxima para o gráfico */
+    margin-top: 1.5rem;
+}/* --- ESTILOS PÁGINA GRUPOS DE OPCIONAIS --- */
+.opcionais-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.list-group {
+    list-style-type: none;
+    margin-top: 1rem;
+}
+
+.list-group-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: var(--secondary-color);
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.list-group-item.active .btn-action {
+    color: var(--white-color);
+}
+
+.placeholder-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 300px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+}
+
+.checklist-container {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: 6px;
+}/* --- ESTILOS PARA PÁGINA DE CLIENTES --- */
+.search-wrapper {
+    width: 300px;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}.order-card .motoboy-info {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    margin-top: 0.75rem;
+}/* --- ESTILOS PARA PEDIDOS CANCELADOS --- */
+#column-cancelado .order-card {
+    border-left-color: var(--danger-color);
+    opacity: 0.7;
+}
+
+#column-cancelado .order-card h4,
+#column-cancelado .order-card p {
+    text-decoration: line-through; /* Tacha o texto do pedido */
+}
+
+/* Botão para cancelar pedido no modal */
+.btn-cancel {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+    margin-right: auto; /* Joga o botão para a esquerda */
+}
+.btn-cancel:hover {
+    opacity: 0.8;
+}/* --- ESTILOS PARA ABAS (TABS) NA PÁGINA DE CONFIGURAÇÕES --- */
+.tabs-container {
+    width: 100%;
+}
+.tabs-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+.tab-link {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px; /* Alinha com a borda de baixo */
+}
+.tab-link.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+}
+.horarios-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+.horario-dia {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+.horario-dia .checkbox-label {
+    font-weight: 600;
+    margin-bottom: 0;
+}/* --- ESTILOS PARA VARIAÇÕES DE PRODUTO E CONTROLE DE ESTOQUE --- */
+.variation-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.mt-2 { margin-top: 0.5rem; }
+.text-secondary { color: var(--text-secondary); }
+
+/* Switch Toggle para Disponibilidade */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 28px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: var(--success-color);
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}/* --- ESTILOS PARA PÁGINA DE HISTÓRICO --- */
+.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+.filter-group label {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+.filter-group.search-group {
+    flex-grow: 1; /* Faz a busca ocupar o espaço restante */
+    min-width: 250px;
+}
+.form-control { /* Classe genérica para inputs de formulário */
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}/* --- ESTILOS PARA DASHBOARD AVANÇADO --- */
+
+/* Filtros (reutilizado do histórico para consistência) */
+.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+.filter-group label {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+.form-control {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background-color: var(--white-color); /* Garante que o select tenha fundo branco */
+}
+
+/* Ajustes no grid do dashboard */
+.dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.dashboard-grid-full-width {
+    grid-column: 1 / -1; /* Faz um item ocupar a largura total do grid */
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+/* Estilo para a nova tabela no dashboard */
+.table-container {
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}/* --- Estilos para Radio Buttons --- */
+.radio-group-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.radio-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.radio-card:hover {
+    border-color: #bdc3c7;
+}
+
+/* Esconde o botão de rádio original */
+.radio-card input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    
+    /* Cria o nosso próprio visual de bolinha */
+    flex-shrink: 0;
+    margin-top: 4px; /* Alinha com o texto */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #bdc3c7;
+    border-radius: 50%;
+    position: relative;
+}
+
+/* Círculo interno que aparece quando selecionado */
+.radio-card input[type="radio"]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    transition: transform 0.2s;
+}
+
+/* Estilo do card quando o rádio está selecionado */
+.radio-card input[type="radio"]:checked {
+    border-color: var(--primary-color);
+}
+.radio-card input[type="radio"]:checked::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+.radio-card input[type="radio"]:checked + .radio-card-content {
+    /* (Opcional) Pode mudar o estilo do texto quando selecionado */
+}
+
+/* Estilo da borda do card inteiro quando selecionado */
+.radio-card input[type="radio"]:checked ~ .radio-card-content {
+    /* Targeting the parent .radio-card is tricky, so we'll do it with JS if needed, but this works well */
+}
+
+label:has(input[type="radio"]:checked) {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(106, 90, 249, 0.2);
+}
+
+.radio-card-content {
+    margin-left: 1rem;
+}
+
+.radio-title {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.radio-description {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}/* --- Ícone de WhatsApp --- */
+/* --- ESTILOS PARA ÍCONE DE WHATSAPP --- */
+/* --- ESTILOS PARA ÍCONE DE WHATSAPP (VERSÃO MELHORADA) --- */
+.whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-left: 10px;
+    background-color: #eaf8f0; /* Fundo verde claro */
+    border-radius: 50%; /* Deixa o fundo redondo */
+    width: 28px; /* Tamanho do círculo */
+    height: 28px; /* Tamanho do círculo */
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.whatsapp-link:hover {
+    background-color: #d4f0e0; /* Verde um pouco mais escuro ao passar o mouse */
+    transform: scale(1.1);
+}
+
+.whatsapp-icon {
+    width: 18px; /* Tamanho do ícone dentro do círculo */
+    height: 18px;
+    fill: #25D366; /* Cor oficial do WhatsApp */
+}
+/* --- ESTILOS PARA A SEÇÃO MOTOBOY --- */
+
+.motoboy-section h5 { /* Adiciona mais destaque ao título "Motoboy" */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+/* Estilo para um select (dropdown) mais moderno */
+.form-group select {
+    appearance: none; /* Remove o estilo padrão do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.2);
+}/* --- Estilos para Seleção de Tipo de Entrega --- */
+.delivery-type-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.delivery-type-option {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delivery-type-option input[type="radio"] {
+    display: none; /* Esconde o botão de rádio padrão */
+}
+
+.delivery-type-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+.delivery-type-content span:first-child {
+    font-size: 2rem; /* Tamanho do ícone */
+}
+
+/* Estilo da opção selecionada */
+.delivery-type-option input[type="radio"]:checked + .delivery-type-content {
+    color: var(--primary-color);
+}
+label:has(input[type="radio"]:checked) {
+    border-color: var(--primary-color);
+    background-color: #fff8f8;
+}/* --- Estilos para Informação de Entrega no Card --- */
+.motoboy-info, .delivery-type-info {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #3d3d3d;
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--secondary-color);
+}.kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card-link {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.new-orders-card {
+    border-left: 5px solid var(--primary-color);
+}
+.new-orders-card .card-value {
+    color: var(--primary-color);
+}
+.card-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}/* --- AJUSTES PARA O MODAL DE PRODUTOS --- */
+
+/* Faz o modal maior em telas grandes */
+.modal.modal-lg {
+    max-width: 700px;
+}
+
+/* O segredo para a rolagem interna! */
+.modal-body {
+    max-height: 60vh; /* Define uma altura máxima (60% da altura da tela) */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical APENAS SE necessário */
+    padding: 1.5rem;
+}
+
+/* Garante que o formulário não tenha margens estranhas */
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para o botão de remover variação */
+.btn-remove-variation {
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem;
+    line-height: 1;
+}/* --- Estilos para Grupo de Ações no Header --- */
+.header-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}/* ========= BLOCO 3: ADICIONE ISTO NO FINAL DO SEU CSS ========= */
+
+/* AJUSTES DE HOVER PARA BOTÃO SECUNDÁRIO */
+body.dark-mode .btn-secondary:hover { background-color: #3a3f44; }
+body:not(.dark-mode) .btn-secondary:hover { background-color: #e2e6ea; }
+
+/* AJUSTES PARA O BANNER DE ALERTA */
+body.dark-mode .store-closed-banner {
+    background-color: #332700;
+    color: #ffda59;
+}
+
+/* AJUSTES PARA OS RADIO-CARDS SELECIONADOS */
+body.dark-mode label:has(input[type="radio"]:checked) { background-color: rgba(123, 110, 252, 0.1); }
+body:not(.dark-mode) label:has(input[type="radio"]:checked) { background-color: #f5f3ff; }
+
+/* CORREÇÃO PARA A SETA DO SELECT NO MODO ESCURO */
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+body.dark-mode .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23b0b3b8' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+/* ========= BLOCO FINAL: CORREÇÃO VISUAL DO KANBAN NO MODO ESCURO ========= */
+
+/* Define a cor de fundo do card do pedido no modo escuro */
+body.dark-mode .order-card {
+    background-color: var(--card-background);
+}
+
+/* Garante que o texto principal (Nome, Horário, Total) use a cor de texto padrão do modo escuro */
+body.dark-mode .order-card h4,
+body.dark-mode .order-card p {
+    color: var(--text-color);
+}
+
+/* O texto secundário (cliente, etc.) usa a cor mais clara do modo escuro */
+body.dark-mode .order-card p:not(.order-total) {
+    color: var(--text-light);
+}
+
+/* O total do pedido fica em destaque */
+body.dark-mode .order-card .order-total {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+/* Ajusta as cores das informações de entrega/motoboy */
+body.dark-mode .delivery-type-info,
+body.dark-mode .motoboy-info {
+    color: var(--text-light);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Remove a opacidade dos cards finalizados no modo escuro para melhor contraste */
+body.dark-mode #column-finalizado .order-card {
+    opacity: 0.9;
+}
+
+/* Deixa o texto do pedido cancelado mais visível no modo escuro */
+body.dark-mode #column-cancelado .order-card h4,
+body.dark-mode #column-cancelado .order-card p {
+    color: var(--text-light);
+    text-decoration: line-through;
+}
+/* ========= BLOCO FINAL: CORREÇÃO VISUAL DO MODAL NO MODO ESCURO ========= */
+
+/* Remove o fundo claro do ícone de WhatsApp no Modo Escuro */
+body.dark-mode .whatsapp-link {
+    background-color: transparent;
+}
+
+/* Define um fundo sutil ao passar o mouse por cima no Modo Escuro */
+body.dark-mode .whatsapp-link:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Garante que o ícone de Motoboy e o texto da seção tenham a cor correta */
+body.dark-mode .motoboy-section h5,
+body.dark-mode .motoboy-section label {
+    color: var(--text-color);
+}
+
+/* Garante que a linha divisória da seção de Motoboy tenha a cor de borda correta */
+body.dark-mode .order-details-section h5 {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Garante que os ícones (SVG) dentro das seções também usem a cor de texto correta */
+body.dark-mode .motoboy-section h5 svg {
+    fill: var(--text-color);
+}
+/* ========= BLOCO FINAL: CORREÇÃO VISUAL DAS OPÇÕES DO SELECT NO MODO ESCURO ========= */
+
+/* Define o estilo das opções DENTRO do select no Modo Escuro */
+body.dark-mode .form-group select option {
+    background-color: var(--card-background); /* Fundo escuro para cada opção */
+    color: var(--text-color); /* Texto claro para cada opção */
+}
+/* ========= BLOCO FINAL: CORREÇÃO VISUAL DOS INPUTS E SELECTS NO MODO ESCURO ========= */
+
+/* 
+  Força todos os inputs, selects e textareas a usarem as cores corretas do tema.
+  Isso garante que o fundo e o texto fiquem legíveis no Modo Escuro.
+*/
+body.dark-mode .form-group input,
+body.dark-mode .form-group select,
+body.dark-mode .form-group textarea,
+body.dark-mode .form-control {
+    background-color: var(--secondary-color); /* Fundo cinza escuro */
+    color: var(--text-color); /* Texto branco/cinza claro */
+    border: 1px solid var(--border-color); /* Borda mais sutil */
+}
+
+/* Garante que o texto de placeholder (texto "fantasma") também seja visível */
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: var(--text-light);
+  opacity: 0.8; 
+}
+/* ========= ESTILOS DO SUBMENU (DROPDOWN) ========= */
+
+/* Ícone da setinha */
+.arrow-icon {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+}
+
+/* Quando o menu está aberto, a setinha gira */
+.nav-item.open .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* O submenu começa escondido (altura 0) */
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: rgba(0, 0, 0, 0.03); /* Fundo levemente diferente */
+    border-left: 3px solid transparent;
+}
+
+/* Quando aberto, ganha altura */
+.nav-item.open .sidebar-submenu {
+    max-height: 200px; /* Altura suficiente para os itens */
+    border-left-color: var(--primary-color); /* Detalhe visual na borda */
+}
+
+/* Ajuste dos links dentro do submenu (mais recuados) */
+.sidebar-submenu li a {
+    padding: 0.8rem 1rem 0.8rem 3rem; /* Mais padding na esquerda */
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.sidebar-submenu li a:hover {
+    color: var(--primary-color);
+    background-color: transparent; /* Remove fundo padrão */
+}
+
+/* Link "Pai" (o que tem a setinha) */
+.has-submenu {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}.badge-atendente {
+    background-color: #17a2b8; /* Azul Ciano */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.badge-admin {
+    background-color: #28a745; /* Verde */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.badge-dono {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid #ff9999;
+}.whatsapp-actions-container {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.whatsapp-actions-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #25D366; /* Verde Zap */
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.whatsapp-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.btn-zap-action {
+    background-color: #e8f8ef;
+    color: #1a8f48;
+    border: 1px solid #25D366;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-zap-action:hover {
+    background-color: #25D366;
+    color: white;
+}#column-finalizado .order-card {
+    border-left-color: var(--text-light);
+    opacity: 0.7; /* Começa meio apagado */
+    cursor: pointer; /* Mostra a mãozinha ao passar o mouse */
+    transition: all 0.2s ease;
+}
+
+/* Quando passar o mouse, ele acende */
+#column-finalizado .order-card:hover {
+    opacity: 1; 
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left-color: var(--primary-color); /* Muda a cor da borda */
+}#column-finalizado .order-card,
+#column-cancelado .order-card {
+    opacity: 0.7; /* Um pouco transparente para diferenciar */
+    cursor: pointer !important; /* Força a mãozinha do mouse */
+    pointer-events: auto !important; /* FORÇA O CLIQUE A FUNCIONAR */
+    transition: all 0.2s ease;
+    background-color: #f8f9fa; /* Fundo levemente cinza */
+}
+
+/* Efeito ao passar o mouse */
+#column-finalizado .order-card:hover,
+#column-cancelado .order-card:hover {
+    opacity: 1; /* Fica totalmente visível */
+    transform: scale(1.02); /* Aumenta um pouquinho */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    background-color: #ffffff;
+    border-left-color: var(--primary-color); /* Borda fica roxa */
+    z-index: 10; /* Traz para frente */
+}#store-status-toggle {
+    pointer-events: auto !important;
+    z-index: 1000 !important; /* Traz para frente de tudo */
+    position: relative; /* Necessário para o z-index funcionar */
+    cursor: pointer !important;
+}
+
+/* Força os cards de pedido a serem clicáveis */
+.order-card {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* Garante que a coluna não bloqueie o clique */
+.kanban-column-content {
+    pointer-events: auto !important;
+}
+
+/* Correção visual para o banner de loja fechada */
+.store-closed-banner {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ffeeba;
+    width: 100%;
+    display: block; /* Garante que ocupe a linha */
+}
+/* 1. CORREÇÃO DO BOTÃO FECHAR LOJA E HEADER */
+/* Garante que os botões do header fiquem acima de qualquer camada transparente */
+.header {
+    position: relative;
+    z-index: 102; /* Acima da sidebar que é 100 */
+}
+
+.header-actions {
+    position: relative;
+    z-index: 103;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#store-status-toggle {
+    position: relative;
+    z-index: 104;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* 2. CORREÇÃO VISUAL E DE CLIQUE: PEDIDOS FINALIZADOS */
+/* Força a cor CINZA e garante o clique */
+#column-finalizado .order-card {
+    background-color: #e9ecef !important; /* Cinza claro fixo */
+    border: 1px solid #dee2e6 !important; /* Borda sutil */
+    border-left: 5px solid #adb5bd !important; /* Borda lateral cinza escuro */
+    color: #6c757d !important; /* Texto cinza para parecer inativo */
+    opacity: 1 !important; /* Remove transparência para ficar nítido */
+    cursor: pointer !important; /* Mãozinha do mouse */
+    pointer-events: auto !important; /* Força o clique a funcionar */
+    transition: transform 0.2s, background-color 0.2s !important;
+}
+
+/* Efeito ao passar o mouse nos finalizados (Mantém cinza, apenas escurece um pouco) */
+#column-finalizado .order-card:hover {
+    background-color: #dde2e6 !important; /* Cinza um pouco mais escuro */
+    transform: translateY(-3px) !important; /* Move levemente para cima */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    z-index: 50 !important; /* Traz para frente ao passar o mouse */
+}
+
+/* Garante que o texto dentro do card finalizado também seja clicável */
+#column-finalizado .order-card h4,
+#column-finalizado .order-card p {
+    pointer-events: none; /* O clique passa pelo texto e atinge o card */
+}
+
+/* 3. CORREÇÃO VISUAL: PEDIDOS CANCELADOS (Para combinar com o cinza) */
+#column-cancelado .order-card {
+    background-color: #f8d7da !important; /* Vermelho bem claro */
+    opacity: 0.8 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+#column-cancelado .order-card:hover {
+    opacity: 1 !important;
+    transform: translateY(-2px);
+}
+.header {
+    position: relative !important;
+    z-index: 200 !important; /* Garante que fique acima da Sidebar e do conteúdo */
+    background: var(--card-background); /* Garante que o fundo não seja transparente */
+}
+
+.header-actions {
+    position: relative;
+    z-index: 201;
+}
+
+#store-status-toggle {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 202;
+}
+
+/* 2. CORREÇÃO VISUAL E CLIQUE: PEDIDOS FINALIZADOS (CINZA) */
+
+/* Estilo Padrão (Modo Claro) */
+#column-finalizado .order-card {
+    background-color: #e2e6ea !important; /* CINZA CLARO */
+    border: 1px solid #ced4da !important;
+    border-left: 5px solid #6c757d !important; /* Borda lateral cinza escuro */
+    color: #495057 !important; /* Texto cinza escuro */
+    opacity: 1 !important; /* Remove transparência para permitir clique e leitura */
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    box-shadow: none !important;
+}
+
+/* Estilo Modo Escuro (Dark Mode) */
+body.dark-mode #column-finalizado .order-card {
+    background-color: #2c3035 !important; /* CINZA ESCURO */
+    border: 1px solid #495057 !important;
+    border-left: 5px solid #adb5bd !important;
+    color: #adb5bd !important; /* Texto claro */
+}
+
+/* Efeito Hover (Passar o mouse) - Fica um pouco mais escuro para indicar que é clicável */
+#column-finalizado .order-card:hover {
+    filter: brightness(0.95); /* Escurece levemente */
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+}
+
+/* Garante que textos e ícones dentro do card não bloqueiem o clique */
+#column-finalizado .order-card * {
+    pointer-events: none !important;
+}
+
+/* 3. CORREÇÃO DO LOADER (Caso ele esteja invisível bloqueando a tela) */
+.loader-container.hidden {
+    display: none !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+}.hidden, 
+.modal-container.hidden, 
+.loader-container.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* 2. FORÇAR O HEADER PARA FRENTE */
+/* Traz o botão de fechar loja para cima de qualquer camada invisível */
+.header {
+    position: relative !important;
+    z-index: 500 !important; /* Valor alto para ficar acima de tudo */
+}
+
+.header-actions, 
+#store-status-toggle {
+    position: relative !important;
+    z-index: 501 !important;
+    pointer-events: auto !important; /* Força o clique funcionar */
+    cursor: pointer !important;
+}
+
+/* 3. ESTILO DOS PEDIDOS FINALIZADOS (CINZA E CLICÁVEIS) */
+/* Força o clique funcionar nos cards finalizados */
+#column-finalizado .order-card {
+    pointer-events: auto !important; /* Permite clicar */
+    cursor: pointer !important;
+    opacity: 1 !important; /* Remove transparência para ver a cor real */
+    border: 1px solid #495057 !important; /* Borda cinza */
+    box-shadow: none !important;
+}
+
+/* COR CINZA NO MODO ESCURO (Como na sua foto) */
+body.dark-mode #column-finalizado .order-card {
+    background-color: #343a40 !important; /* Cinza escuro e sólido */
+    color: #adb5bd !important; /* Texto cinza claro */
+}
+
+/* COR CINZA NO MODO CLARO */
+body:not(.dark-mode) #column-finalizado .order-card {
+    background-color: #e9ecef !important; /* Cinza claro */
+    color: #6c757d !important;
+}
+
+/* Efeito ao passar o mouse (Para saber que é clicável) */
+#column-finalizado .order-card:hover {
+    transform: translateY(-3px) !important;
+    filter: brightness(1.1); /* Clareia um pouco */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+}
+
+/* Garante que o texto dentro do card não atrapalhe o clique */
+.order-card * {
+    pointer-events: none !important;
+}
+
+/* 4. CORREÇÃO DA BARRA LATERAL */
+/* Garante que ela não cubra o header */
+.sidebar {
+    z-index: 400 !important; /* Menor que o header (500) */
+}
+/* --- START OF FILE style.css (Adicione ao final) --- */
+
+/* CORREÇÃO VISUAL DO MODAL DE DETALHES */
+
+/* Link de Telefone */
+.phone-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+.phone-link:hover {
+    text-decoration: underline;
+}
+
+/* Badge de Endereço */
+.address-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* MODO CLARO (Visual Padrão) */
+.address-badge {
+    background-color: #fff3cd; /* Amarelo claro */
+    color: #856404; /* Texto escuro */
+    border: 1px solid #ffeeba;
+}
+
+/* MODO ESCURO (Correção) */
+body.dark-mode .phone-link {
+    color: #64b5f6; /* Azul claro legível */
+}
+
+body.dark-mode .address-badge {
+    background-color: #4a4a4a; /* Cinza escuro */
+    color: #ffffff; /* Texto branco */
+    border: 1px solid #666;
+}
+
+body.dark-mode .address-badge.retirada {
+    background-color: #1e3a8a; /* Azul escuro */
+    color: #dbeafe; /* Azul claro */
+    border-color: #1e40af;
+}
+/* --- CORREÇÃO DE CAMADAS DOS MODAIS (Z-INDEX) --- */
+
+/* Modal de Pedido Manual (Fica acima do site normal) */
+#manual-order-modal {
+    z-index: 1050 !important;
+}
+
+/* Modal de Adicionar Produto (TEM QUE FICAR ACIMA do Manual) */
+#add-product-modal {
+    z-index: 1060 !important;
+}
+
+/* O Loader (carregando) tem que ser o mais alto de todos */
+.loader-container {
+    z-index: 2000 !important;
+}
+
+/* Garante que o fundo escuro do modal cubra tudo */
+.modal-container {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+/* Responsividade do Link de Compartilhamento */
+@media (max-width: 600px) {
+    .share-link-container {
+        flex-direction: column;
+    }
+    .share-link-container button, 
+    .share-link-container a {
+        width: 100%;
+    }
+}
+/* ============================================================
+   APENAS A NOVA SIDEBAR (ESTILO PROFISSIONAL)
+   ============================================================ */
+
+:root {
+    /* Variáveis exclusivas para a Sidebar não quebrar seu resto */
+    --sidebar-bg-color: #1e1e2d;       /* Fundo Escuro Premium */
+    --sidebar-text-color: #a2a3b7;     /* Texto Cinza Claro */
+    --sidebar-width: 260px;            /* Largura da Barra */
+    --sidebar-hover-bg: #2b2b40;       /* Cor ao passar mouse */
+    --sidebar-active-border: #ea1d2c;  /* Cor da Borda Ativa (Vermelho iFood) */
+    --submenu-bg-color: #151521;       /* Fundo do Submenu */
+}
+
+/* 1. O Container da Barra Lateral */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--sidebar-bg-color);
+    position: fixed; /* Fixa na tela */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 500;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    border-right: none;
+    transition: all 0.3s ease;
+}
+
+/* 2. O Cabeçalho (Nome da Loja) */
+.sidebar-header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+}
+
+.sidebar-header h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* 3. Área de Links (Rolagem) */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+/* Barra de rolagem fina para ficar bonito */
+.sidebar-nav::-webkit-scrollbar { width: 5px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 4. Estilo dos Links (Botões) */
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 25px;
+    color: var(--sidebar-text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-nav a:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: #fff;
+    border-left-color: var(--sidebar-active-border);
+    padding-left: 30px; /* Efeito de deslizar para direita */
+}
+
+/* 5. Submenu (Dropdown) */
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--submenu-bg-color);
+    transition: max-height 0.4s ease;
+}
+
+/* Quando a classe .open é adicionada pelo JS, o menu abre */
+.nav-item.open .sidebar-submenu {
+    max-height: 500px; /* Abre a gaveta */
+}
+
+/* Links dentro do Submenu */
+.sidebar-submenu li a {
+    padding: 10px 20px 10px 55px; /* Mais recuado */
+    font-size: 0.9rem;
+    border-left: none;
+}
+
+.sidebar-submenu li a:hover {
+    background-color: transparent;
+    color: #fff;
+    padding-left: 60px;
+}
+
+/* Seta Giratória */
+.arrow-icon {
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+}
+.nav-item.open > a .arrow-icon {
+    transform: rotate(180deg);
+    color: #fff;
+}
+
+/* 6. AJUSTE OBRIGATÓRIO DO CONTEÚDO (Para não ficar escondido atrás da barra) */
+.main-wrapper {
+    margin-left: var(--sidebar-width) !important; /* Empurra 260px pra direita */
+    width: calc(100% - var(--sidebar-width)) !important;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste para Celular */
+@media (max-width: 900px) {
+    .sidebar { left: -260px; } /* Esconde a barra */
+    .main-wrapper { margin-left: 0 !important; width: 100% !important; }
+}
+/* ============================================================
+   CORREÇÃO DO CABEÇALHO (HEADER) E BOTÃO SAIR
+   ============================================================ */
+
+/* 1. O Container do Header (Barra Branca do Topo) */
+.header {
+    height: 70px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eef0f5;
+    display: flex;
+    justify-content: space-between; /* Separa Titulo e Usuario */
+    align-items: center;
+    padding: 0 30px;
+    
+    /* Fixa no topo para não sumir ao rolar */
+    position: sticky; 
+    top: 0; 
+    z-index: 400;
+    
+    /* Sombra suave para separar do conteudo */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+/* 2. Título da Página (Esquerda) */
+.header-title h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+}
+
+/* 3. Área do Usuário (Direita) */
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre email e botão */
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 30px; /* Borda redonda moderna */
+    border: 1px solid #eef0f5;
+}
+
+/* Email do Usuário */
+#user-email {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* 4. Botão Sair (Logout) - Estilo Moderno */
+.btn-logout {
+    background-color: #ffebee; /* Fundo vermelho bem clarinho */
+    color: #d32f2f;            /* Texto vermelho */
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-logout:hover {
+    background-color: #ffcdd2; /* Vermelho mais forte no hover */
+    transform: translateY(-1px); /* Leve pulinho */
+}
+
+/* Ajuste para Dark Mode (Se o usuário ativar) */
+body.dark-mode .header {
+    background-color: #24272c;
+    border-bottom-color: #3a3f44;
+}
+body.dark-mode .header-title h1 { color: #fff; }
+body.dark-mode .header-user { background-color: #2c3035; border-color: #3a3f44; }
+body.dark-mode #user-email { color: #ccc; }

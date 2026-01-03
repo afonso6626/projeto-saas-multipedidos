@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+    <div class="app-container">
+     <aside class="sidebar">
+    <div class="sidebar-header">
+        <h3>Lanchonete Admin</h3>
+    </div>
+    
+   <nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Gestão de Produtos</h1>
+                </div>
+                <div class="header-user">
+                    <span id="user-email">Carregando...</span>
+                    <button id="logoutButton" class="btn-logout">Sair</button>
+                </div>
+            </header>
+            <main class="main-content">
+                <div class="content-header">
+                    <h2>Todos os Produtos <small class="text-secondary" style="font-weight: 400;">(clique e arraste para reordenar)</small></h2>
+                    <div class="header-actions-group">
+                        <div class="search-wrapper">
+                            <input type="text" id="search-produtos" placeholder="Buscar por nome do produto...">
+                        </div>
+                        <button class="btn btn-primary" id="add-product-btn">Adicionar Novo Produto</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Categoria</th>
+                                <th>Preço Base</th>
+                                <th>Disponível</th>
+                                <th style="width: 150px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Produtos serão carregados aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Produto -->
+    <div id="product-modal" class="modal-container hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="modal-title">Novo Produto</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <form id="product-form">
+                <div class="modal-body">
+                    <input type="hidden" id="product-id">
+                    <div class="form-group">
+                        <label for="product-name">Nome do Produto</label>
+                        <input type="text" id="product-name" required placeholder="Ex: Pizza Calabresa">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Categoria</label>
+                        <select id="product-category" required class="form-control">
+                            <!-- Categorias carregadas pelo JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Descrição</label>
+                        <textarea id="product-description" rows="3" placeholder="Ingredientes e detalhes do produto..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Variações de Tamanho e Preço</label>
+                        <div id="variations-container"></div>
+                        <button type="button" class="btn btn-secondary mt-2" id="add-variation-btn">Adicionar Variação</button>
+                        <p class="text-secondary mt-2" style="font-size: 0.8rem;">Se o produto não tem variação, deixe o "Tamanho" em branco ou como "Padrão".</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Grupos de Opcionais Vinculados</label>
+                        <div id="grupos-opcionais-checklist" class="checklist-container">
+                            <!-- Checkboxes dos grupos -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- MODIFICADO: Adicionada a biblioteca SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/produtos.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

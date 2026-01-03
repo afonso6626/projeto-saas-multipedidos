@@ -1,0 +1,64 @@
+/* ========= INÍCIO DO BLOCO PARA SUBSTITUIR O ARQUIVO print.css ========= */
+
+/* Estilos para a impressão de pedidos (cupom) */
+body {
+    font-family: 'Courier New', Courier, monospace; /* Fonte padrão de impressoras térmicas */
+    width: 280px; /* Largura para impressora de 80mm (pode ajustar para 180px se for 58mm) */
+    margin: 0;
+    padding: 10px;
+    font-size: 12px;
+    color: #000;
+}
+
+h3, h4 {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+p {
+    margin: 3px 0;
+}
+
+.section {
+    border-top: 1px dashed #000;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.item-list .item {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px; /* Adiciona espaço entre os itens principais */
+}
+
+.item-list .item .item-info {
+    max-width: 220px; /* Evita que o nome do item quebre a linha de preço */
+    font-weight: bold; /* Deixa o nome do item em negrito */
+}
+
+.item-list .item-optionals {
+    padding-left: 15px;
+    font-size: 11px;
+    color: #333;
+    font-style: italic; /* Opcionais em itálico para diferenciar */
+}
+
+.total-summary .item {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Centraliza o tipo de pedido */
+.order-type {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 10px 0;
+}
+
+/* ========= FIM DO BLOCO PARA SUBSTITUIR O ARQUIVO print.css ========= */

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/css/style.css">
+</head>
+<body>
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+
+    <!-- AQUI ESTÁ O SEGREDO: A login-container segura tudo no centro -->
+    <div class="login-container">
+        <!-- E a login-box é o cartão branco (ou cinza escuro) que limita a largura -->
+        <div class="login-box">
+            <h2>Painel da Lanchonete</h2>
+            <p>Faça login para gerenciar seu negócio</p>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" id="loginButton" class="btn-primary" style="width: 100%;">Entrar</button>
+                
+                <!-- Link de recuperar senha -->
+                <div style="margin-top: 15px; text-align: center;">
+                    <a href="#" id="btn-forgot-password" style="color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">Esqueci minha senha</a>
+                </div>
+
+                <p id="error-message" class="error-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE RECUPERAÇÃO DE SENHA (Fica fora do container principal) -->
+    <div id="forgot-password-modal" class="modal-container hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Recuperar Senha</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <form id="forgot-password-form">
+                <div class="modal-body">
+                    <p style="margin-bottom: 15px; color: var(--text-light);">Digite seu e-mail para receber um link de redefinição.</p>
+                    <div class="form-group">
+                        <label>Seu E-mail</label>
+                        <input type="email" id="recovery-email" required class="form-control" placeholder="exemplo@email.com">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- Scripts Modulares -->
+    <script type="module" src="admin/js/auth.js"></script>
+    <script type="module" src="admin/js/ui.js"></script>
+</body>
+</html>

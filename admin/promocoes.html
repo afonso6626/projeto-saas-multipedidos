@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoções | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+    <div class="app-container">
+     <aside class="sidebar">
+    <div class="sidebar-header">
+        <h3>Lanchonete Admin</h3>
+    </div>
+    
+<nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</aside>
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Gestão de Promoções</h1>
+                </div>
+                <div class="header-user">
+                    <button id="theme-toggle" class="btn-action" style="font-size: 1.5rem; margin-right: 1rem;"><span id="theme-icon">🌙</span></button>
+                    <span id="user-email">Carregando...</span>
+                    <button id="logoutButton" class="btn-logout">Sair</button>
+                </div>
+            </header>
+            <main class="main-content">
+                <div class="content-header">
+                    <h2>Todas as Promoções</h2>
+                    <button class="btn btn-primary" id="add-promotion-btn">Criar Nova Promoção</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome da Promoção</th>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                                <th style="width: 150px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="promotions-table-body">
+                            <!-- Linhas serão inseridas aqui pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Promoção -->
+    <div id="promotion-modal" class="modal-container hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="promotion-modal-title">Nova Promoção</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <form id="promotion-form">
+                <div class="modal-body">
+                    <input type="hidden" id="promotion-id">
+                    
+                    <div class="form-group">
+                        <label for="promotion-name">Nome da Promoção (Ex: Combo X-Tudo + Refri)</label>
+                        <input type="text" id="promotion-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo da Promoção</label>
+                        <p class="text-secondary" style="font-size: 0.9rem;">No momento, apenas "Compre X e ganhe desconto em Y" está disponível.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotion-main-product">SE o cliente comprar o produto:</label>
+                        <select id="promotion-main-product" class="form-control" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotion-secondary-product">ENTÃO ele ganha desconto no produto:</label>
+                        <select id="promotion-secondary-product" class="form-control" required></select>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="promotion-discount-type">Tipo de Desconto</label>
+                            <select id="promotion-discount-type" class="form-control" required>
+                                <option value="percentual">Percentual (%)</option>
+                                <option value="fixo">Valor Fixo (R$)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="promotion-discount-value">Valor do Desconto</label>
+                            <input type="number" step="0.01" id="promotion-discount-value" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dias da Semana Válidos (deixe todos marcados para valer sempre)</label>
+                        <div id="promotion-days" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <label class="checkbox-label"><input type="checkbox" value="0" checked> Dom</label>
+                            <label class="checkbox-label"><input type="checkbox" value="1" checked> Seg</label>
+                            <label class="checkbox-label"><input type="checkbox" value="2" checked> Ter</label>
+                            <label class="checkbox-label"><input type="checkbox" value="3" checked> Qua</label>
+                            <label class="checkbox-label"><input type="checkbox" value="4" checked> Qui</label>
+                            <label class="checkbox-label"><input type="checkbox" value="5" checked> Sex</label>
+                            <label class="checkbox-label"><input type="checkbox" value="6" checked> Sáb</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="promotion-active">Status</label>
+                        <select id="promotion-active" class="form-control" required>
+                            <option value="true">Ativa</option>
+                            <option value="false">Inativa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Promoção</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/promocoes.js"></script> <!-- Script que vamos criar -->
+    <script type="module" src="./js/ui.js"></script>
+</body>
+</html>

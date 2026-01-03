@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cardápio Digital</title>
+    
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#EA1D2C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <!-- Mapas -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="/admin/css/menu.css">
+</head>
+<body>
+
+    <!-- LOADER -->
+    <div id="loader" class="loader-overlay">
+        <div class="spinner-lg"></div>
+    </div>
+
+    <!-- HEADER COM CAPA -->
+    <header class="app-header">
+        <div class="header-cover" id="header-cover-img"></div>
+        <div class="header-content container">
+            <div class="store-profile">
+                <div class="logo-box">
+                    <img src="img/placeholder-logo.png" id="store-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3075/3075977.png'">
+                </div>
+                <div class="store-details">
+                    <h1 id="store-name">Carregando...</h1>
+                    <div class="store-badges">
+                        <div id="store-status" class="status-pill closed">Fechado</div>
+                        <div class="delivery-pill"><span class="material-icons-round">moped</span> <span id="delivery-time-display">30-50 min</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="store-info-grid">
+                <div class="info-item">
+                    <span class="label">Entrega</span>
+                    <span class="val green" id="min-delivery-fee">Calculando...</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Pedido Mínimo</span>
+                    <span class="val" id="min-order-display">R$ 0,00</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Pagamento</span>
+                    <span class="val">Pix / Cartão</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- BUSCA -->
+    <div class="search-section container">
+        <div class="search-box">
+            <span class="material-icons-round">search</span>
+            <input type="text" id="search-menu" placeholder="O que você quer comer hoje?">
+        </div>
+    </div>
+
+    <!-- NAV CATEGORIAS -->
+    <div class="nav-sticky-wrapper">
+        <div class="container">
+            <nav id="category-nav" class="category-nav"></nav>
+        </div>
+    </div>
+
+    <!-- LISTA DE PRODUTOS -->
+    <main id="menu-section" class="menu-container container">
+        <div class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Montando o cardápio...</p>
+        </div>
+    </main>
+    
+    <div style="height: 100px;"></div> <!-- Espaço para não cobrir footer -->
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('home')">
+            <span class="material-icons-round">storefront</span>
+            <span>Início</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('orders')">
+            <span class="material-icons-round">receipt_long</span>
+            <span>Pedidos</span>
+        </button>
+        <button class="nav-item relative" onclick="openCart()">
+            <div class="cart-fab">
+                <span class="material-icons-round">shopping_bag</span>
+                <span id="cart-count-badge" class="hidden">0</span>
+            </div>
+            <span style="margin-top: 18px;">Sacola</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('profile')">
+            <span class="material-icons-round">person</span>
+            <span>Perfil</span>
+        </button>
+    </nav>
+
+    <!-- ================= MODAIS ================= -->
+
+    <!-- 1. MODAL PRODUTO -->
+    <div id="product-modal" class="modal-overlay hidden">
+        <div class="modal-content product-modal-type">
+            <div class="modal-hero-image">
+                <img src="" id="modal-product-image">
+                <button class="close-btn-icon close-modal-btn"><span class="material-icons-round">close</span></button>
+            </div>
+            
+            <div class="modal-scroll-area">
+                <div class="modal-header-text">
+                    <h2 id="modal-product-name"></h2>
+                    <p id="modal-product-description"></p>
+                </div>
+                
+                <form id="product-options-form">
+                    <div id="modal-variations-section"></div>
+                    <!-- Opcionais serão injetados aqui via JS -->
+                    <div id="modal-optionals-injection"></div>
+                    
+                    <div class="input-group mt-3">
+                        <label class="label-title"><span class="material-icons-round">edit_note</span> Observações</label>
+                        <textarea id="product-obs" rows="2" class="styled-input" placeholder="Ex: Sem cebola..."></textarea>
+                    </div>
+                    <div style="height: 80px;"></div>
+                </form>
+            </div>
+
+            <div class="modal-footer-fixed">
+                <div class="qty-control">
+                    <button type="button" id="decrease-quantity"><span class="material-icons-round">remove</span></button>
+                    <input type="number" id="quantity" value="1" readonly>
+                    <button type="button" id="increase-quantity"><span class="material-icons-round">add</span></button>
+                </div>
+                <button type="button" id="btn-add-to-cart" class="btn-primary btn-add">
+                    <span>Adicionar</span>
+                    <span id="modal-total-price" data-total="0">R$ 0,00</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL SACOLA -->
+    <div id="cart-modal" class="modal-overlay hidden">
+        <div class="modal-content cart-modal-type">
+            <div class="modal-header-simple">
+                <h2>Sacola</h2>
+                <button class="close-btn-simple close-modal-btn"><span class="material-icons-round">keyboard_arrow_down</span></button>
+            </div>
+            
+            <div class="modal-scroll-area cart-scroll">
+                <div id="cart-items-container" class="cart-list"></div>
+
+                <!-- Cupom -->
+                <div class="coupon-section">
+                    <div class="flex-row">
+                        <span class="material-icons-round icon-prefix">local_offer</span>
+                        <input type="text" id="coupon-code" class="styled-input" placeholder="Cupom">
+                        <button type="button" id="btn-apply-coupon">Aplicar</button>
+                    </div>
+                    <p id="coupon-message" class="small-msg hidden"></p>
+                </div>
+
+                <!-- Totais -->
+                <div class="cart-bill">
+                    <div class="row"><span>Subtotal</span> <span id="cart-subtotal">R$ 0,00</span></div>
+                    <div class="row"><span>Taxa Entrega</span> <span id="cart-delivery-fee">Calculando...</span></div>
+                    <div class="row hidden" id="row-discount"><span class="txt-green">Desconto</span> <span id="cart-discount" class="txt-green">- R$ 0,00</span></div>
+                    <div class="divider"></div>
+                    <div class="row total"><span>Total</span> <span id="cart-total-final" class="txt-green">R$ 0,00</span></div>
+                </div>
+
+                <!-- Alerta Login -->
+                <div id="cart-auth-alert" class="auth-alert hidden" onclick="switchTab('profile')">
+                    <span class="material-icons-round">account_circle</span>
+                    <span>Faça login para salvar endereço e pontos!</span>
+                </div>
+
+                <form id="checkout-form" class="checkout-form">
+                    <div class="form-section">
+                        <h3><span class="material-icons-round">moped</span> Entrega</h3>
+                        <div class="toggle-switch">
+                            <label><input type="radio" name="delivery-type" value="delivery" checked><span>Entrega</span></label>
+                            <label><input type="radio" name="delivery-type" value="retirada"><span>Retirada</span></label>
+                        </div>
+
+                        <div id="address-section" class="address-box">
+                            <div class="input-wrapper">
+                                <label>Bairro</label>
+                                <select id="delivery-neighborhood" class="styled-input"><option value="">Selecione...</option></select>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Rua e Número</label>
+                                <input type="text" id="delivery-address" class="styled-input" placeholder="Rua X, 123">
+                            </div>
+                            <!-- Botão Mapa -->
+                            <div class="gps-wrapper">
+                                <div class="divider-text">OU</div>
+                                <button type="button" id="btn-open-map" class="btn-outline-map">
+                                    <span class="material-icons-round">map</span> Buscar no Mapa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><span class="material-icons-round">person</span> Dados</h3>
+                        <div class="input-wrapper">
+                            <input type="text" id="customer-name" class="styled-input" placeholder="Seu Nome" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <!-- MÁSCARA DE TELEFONE ADICIONADA AQUI -->
+                            <input type="tel" id="customer-phone" class="styled-input phone-mask" placeholder="(DDD) 99999-9999" maxlength="15" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><span class="material-icons-round">payments</span> Pagamento</h3>
+                        <div class="input-wrapper">
+                            <select id="payment-method" class="styled-input" required>
+                                <option value="">Selecione...</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Cartão de Crédito">Cartão (Maquininha)</option>
+                                <option value="Cartão de Débito">Débito (Maquininha)</option>
+                                <option value="Dinheiro">Dinheiro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="height: 60px;"></div>
+                </form>
+            </div>
+
+            <div class="modal-footer-fixed single-btn">
+                <button type="submit" form="checkout-form" class="btn-primary btn-block">Fazer Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL PERFIL (Login / Cadastro / Recuperação) -->
+    <div id="profile-modal" class="modal-overlay hidden" style="z-index: 90;">
+        <div class="modal-content full-screen-modal">
+            <div class="modal-header-simple">
+                <h2 id="profile-title">Acesse sua conta</h2>
+                <button class="close-btn-simple" onclick="switchTab('home')"><span class="material-icons-round">close</span></button>
+            </div>
+
+            <div class="modal-scroll-area profile-area">
+                
+                <!-- VIEW 1: LOGIN -->
+                <div id="login-view">
+                    <div class="login-header">
+                        <p>Acompanhe seus pedidos e acumule pontos de fidelidade!</p>
+                    </div>
+                    
+                    <form id="client-login-form">
+                        <div class="input-wrapper">
+                            <label>E-mail</label>
+                            <input type="email" id="login-email" class="styled-input" placeholder="exemplo@email.com" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Senha</label>
+                            <input type="password" id="login-password" class="styled-input" placeholder="******" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-block">Entrar</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="#" onclick="showView('forgot')" class="link-action">Esqueci minha senha</a>
+                    </div>
+
+                    <div class="divider-text">ou</div>
+
+                    <button type="button" id="btn-google-login" class="btn-google">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
+                        Entrar com Google
+                    </button>
+
+                    <div class="footer-link">
+                        Não tem conta? <button onclick="showView('signup')" class="btn-link">Criar conta com E-mail</button>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: CADASTRO -->
+                <div id="signup-view" class="hidden">
+                    <div class="login-header"><h3>Crie sua conta</h3></div>
+                    <form id="client-signup-form">
+                        <div class="input-wrapper"><label>Nome Completo</label><input type="text" id="signup-name" class="styled-input" required></div>
+                        <div class="input-wrapper"><label>E-mail</label><input type="email" id="signup-email" class="styled-input" required></div>
+                        <div class="input-wrapper"><label>WhatsApp</label><input type="tel" id="signup-phone" class="styled-input phone-mask" placeholder="(99) 99999-9999" maxlength="15" required></div>
+                        <div class="input-wrapper"><label>Senha</label><input type="password" id="signup-password" class="styled-input" minlength="6" required></div>
+                        
+                        <button type="submit" class="btn-primary btn-block">Cadastrar</button>
+                    </form>
+                    <div class="footer-link">
+                        Já tem conta? <button onclick="showView('login')" class="btn-link">Entrar</button>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ESQUECI A SENHA -->
+                <div id="forgot-view" class="hidden">
+                    <div class="login-header"><h3>Recuperar Senha</h3><p>Digite seu e-mail para receber o link.</p></div>
+                    <form id="forgot-form">
+                        <div class="input-wrapper"><label>E-mail</label><input type="email" id="forgot-email" class="styled-input" required></div>
+                        <button type="submit" class="btn-primary btn-block">Enviar Link</button>
+                    </form>
+                    <div class="footer-link">
+                        <button onclick="showView('login')" class="btn-link">Voltar para o login</button>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: LOGADO (DASHBOARD) -->
+                <div id="user-dashboard-view" class="hidden">
+                    <div class="user-card">
+                        <div class="user-avatar"><span class="material-icons-round">person</span></div>
+                        <div class="user-info">
+                            <h3 id="profile-name">Visitante</h3>
+                            <p id="profile-email">...</p>
+                        </div>
+                        <button class="btn-logout-icon" onclick="clientLogout()" title="Sair"><span class="material-icons-round">logout</span></button>
+                    </div>
+
+                    <!-- Fidelidade -->
+                    <div class="loyalty-card">
+                        <div class="loyalty-header"><span class="material-icons-round">stars</span> Fidelidade</div>
+                        <div class="loyalty-body">
+                            <h2 id="user-points">0</h2>
+                            <p>pontos</p>
+                            <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
+                            <small>R$ 1,00 = <span id="rules-multiplier">1</span> ponto</small>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 20px;">Histórico de Pedidos</h3>
+                    <div id="order-history-list" class="history-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL MAPA -->
+    <div id="map-modal" class="modal-overlay hidden" style="z-index: 300;">
+        <div class="modal-content map-modal-content">
+            <div class="modal-header-simple">
+                <h2>Mapa</h2>
+                <button class="close-btn-simple close-map-btn"><span class="material-icons-round">close</span></button>
+            </div>
+            <div class="map-container-wrapper">
+                <div class="map-search-box">
+                    <input type="text" id="map-search-input" placeholder="Buscar rua...">
+                    <button id="btn-search-address"><span class="material-icons-round">search</span></button>
+                </div>
+                <div id="leaflet-map"></div>
+                <div class="center-pin"><span class="material-icons-round">location_on</span></div>
+                <button type="button" id="btn-center-gps" class="floating-gps-btn"><span class="material-icons-round">my_location</span></button>
+            </div>
+            <div class="modal-footer-fixed single-btn">
+                <button type="button" id="btn-confirm-location" class="btn-primary btn-block">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script type="module" src="./js/firebase-config.js"></script>
+    <script type="module" src="admin/js/menu.js"></script>
+</body>
+</html>

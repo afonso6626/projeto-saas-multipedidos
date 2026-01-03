@@ -1,0 +1,21 @@
+{
+  "name": "Lanchonete App",
+  "short_name": "Lanchonete",
+  "start_url": "./menu.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#EA1D2C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

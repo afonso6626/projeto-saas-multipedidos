@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup de Dados - Firebase</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; background-color: #f0f2f5; }
+        button { padding: 20px 40px; font-size: 1.2rem; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 8px; }
+        p { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Ferramenta de Setup</h1>
+    <p>Clique no botão abaixo para criar um pedido de teste no seu banco de dados.</p>
+    <button id="create-order-btn">Criar Pedido de Teste Automático</button>
+    <p id="status"></p>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // SUA CONFIGURAÇÃO DO FIREBASE (já está correta)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtsNqXGPeCvBK4qBA6yV5DcbZ-5F2Dc8s",
+            authDomain: "painel-a2f75.firebaseapp.com",
+            projectId: "painel-a2f75",
+            storageBucket: "painel-a2f75.firebasestorage.app",
+            messagingSenderId: "401613649175",
+            appId: "1:401613649175:web:97f84c3f74a0fcced63352"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const createOrderBtn = document.getElementById('create-order-btn');
+        const statusEl = document.getElementById('status');
+
+        createOrderBtn.addEventListener('click', () => {
+            statusEl.textContent = 'Criando pedido...';
+
+            // ESTE É O OBJETO DO PEDIDO COM A ESTRUTURA CORRETA
+            const newOrder = {
+                clienteNome: "Cliente Automático",
+                clienteTelefone: "(99) 91234-5678",
+                data: firebase.firestore.FieldValue.serverTimestamp(), // Pega a data e hora atuais
+                endereco: "Avenida Principal, 456",
+                pagamento: "Pix",
+                status: "novo",
+                total: 35.0, // <-- TIPO NUMBER, CORRETO
+                itens: [      // <-- ARRAY APENAS COM OS PRODUTOS
+                    {
+                        nome: "Hambúrguer Duplo Cheddar",
+                        preco: 25.50,
+                        quantidade: 1
+                    },
+                    {
+                        nome: "Refrigerante Lata",
+                        preco: 9.50,
+                        quantidade: 1
+                    }
+                ]
+            };
+
+            // O COMANDO QUE SALVA NO FIREBASE
+            db.collection("pedidos").add(newOrder)
+                .then((docRef) => {
+                    console.log("Documento criado com ID: ", docRef.id);
+                    statusEl.textContent = "SUCESSO! Pedido de teste criado no Firebase!";
+                    statusEl.style.color = 'green';
+                    alert("Pedido de teste criado com sucesso!");
+                })
+                .catch((error) => {
+                    console.error("Erro ao criar documento: ", error);
+                    statusEl.textContent = "ERRO! Verifique o console (F12) para mais detalhes.";
+                    statusEl.style.color = 'red';
+                    alert("Ocorreu um erro ao criar o pedido. Verifique o console.");
+                });
+        });
+    </script>
+
+</body>
+</html>

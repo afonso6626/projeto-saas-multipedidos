@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos | Painel Administrativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Ícone da aba -->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- LOADER (Tela de Carregamento) -->
+    <div id="loader" class="loader-container hidden">
+        <div class="loader"></div>
+    </div>
+    
+    <div class="app-container">
+        <!-- SIDEBAR (MENU LATERAL) -->
+       <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Lanchonete Admin</h3>
+            </div>
+            
+           <nav class="sidebar-nav">
+        <ul>
+            <!-- DASHBOARD (SOLTO) -->
+            <li>
+                <a href="dashboard.html">
+                    <span>📊 Dashboard</span>
+                </a>
+            </li>
+<li>
+    <a href="pedidos.html"
+    <span>📝Pedidos</span>
+    </a>
+</li>
+            <!-- GRUPO: PEDIDOS -->
+            <li>
+    <a href="historico.html"
+    <span>📝Historico De Pedidos</span>
+    </a>
+</li>
+
+            <!-- GRUPO: CARDÁPIO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>🍔 Cardápio</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="categorias.html">Categorias</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="opcionais.html">Opcionais / Adicionais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: MARKETING (CRM) -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>📢 Marketing</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="promocoes.html">Promoções</a></li>
+                    <li><a href="cupons.html">Cupons de Desconto</a></li>
+                    <li><a href="fidelidade.html">Fidelidade</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: FINANCEIRO -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>💰 Financeiro</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="caixa.html">Frente de Caixa</a></li>
+                    <li><a href="historico_caixa.html">Histórico de Caixa</a></li>
+                    <li><a href="relatorios.html">Relatórios Gerenciais</a></li>
+                </ul>
+            </li>
+
+            <!-- GRUPO: CONFIGURAÇÕES -->
+            <li class="nav-item">
+                <a href="#" class="has-submenu">
+                    <span>⚙️ Configurações</span>
+                    <span class="arrow-icon">▼</span>
+                </a>
+                <ul class="sidebar-submenu">
+                    <li><a href="configuracoes.html">Dados da Loja</a></li>
+                    <li><a href="taxas.html">Taxas de Entrega</a></li>
+                    <li><a href="motoboys.html">Motoboys</a></li>
+                    <li><a href="usuarios.html">Equipe / Usuários</a></li>
+                    <li><a href="logs.html">Segurança (Logs)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="main-wrapper">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Painel de Pedidos</h1>
+                    
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <!-- BOTÃO CRIAR PEDIDO MANUAL (Corrigido) -->
+                        <button id="create-manual-order-btn" class="btn btn-secondary" style="margin-right: 10px;">
+                            📝 Criar Pedido Manual
+                        </button> 
+                        
+                        <!-- BOTÃO LIMPEZA -->
+                        <button id="btn-archive-orders" class="btn" style="background-color: #4a4a4a; color: white;">
+                            🧹 Limpar Concluídos
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- CONTROLE DE STATUS DA LOJA -->
+                <div class="header-actions">
+                    <div class="store-status" id="store-status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Carregando...</span>
+                    </div>
+                    <button class="btn btn-danger" id="store-status-toggle">Fechar Loja</button>
+                </div>
+
+                <div class="header-user">
+                    <span id="user-email">Carregando...</span>
+                    <button id="logoutButton" class="btn-logout">Sair</button>
+                </div>
+            </header>
+            
+            <main class="main-content">
+                <!-- QUADRO KANBAN -->
+                <div class="kanban-board">
+                    <!-- Coluna 1: Novos -->
+                    <div class="kanban-column" id="column-novo">
+                        <h2>NOVOS</h2>
+                        <div class="kanban-column-content"></div>
+                    </div>
+                    <!-- Coluna 2: Em Preparo -->
+                    <div class="kanban-column" id="column-preparando">
+                        <h2>EM PREPARO</h2>
+                        <div class="kanban-column-content"></div>
+                    </div>
+                    <!-- Coluna 3: Pronto -->
+                    <div class="kanban-column" id="column-pronto">
+                        <h2>PRONTO P/ ENTREGA</h2>
+                        <div class="kanban-column-content"></div>
+                    </div>
+                    <!-- Coluna 4: Finalizados -->
+                    <div class="kanban-column" id="column-finalizado">
+                        <h2>FINALIZADOS</h2>
+                        <div class="kanban-column-content"></div>
+                    </div>
+                    <!-- Coluna 5: Cancelados -->
+                    <div class="kanban-column" id="column-cancelado">
+                        <h2>CANCELADOS</h2>
+                        <div class="kanban-column-content"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ================= MODAIS ================= -->
+
+    <!-- 1. MODAL DETALHES DO PEDIDO (Ações e Visualização) -->
+    <div id="order-details-modal" class="modal-container hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-order-title">Detalhes do Pedido</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-order-details-body">
+                <!-- Conteúdo dinâmico gerado pelo JS -->
+            </div>
+            <div class="modal-footer" id="modal-order-actions">
+                <!-- Botões de ação gerados pelo JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL EDITAR PEDIDO (Alterar itens/qtd de pedido existente) -->
+    <div id="edit-order-modal" class="modal-container hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="edit-modal-title">Editar Pedido</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Itens Atuais</h4>
+                <div id="editable-items-container" class="table-container">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qtd</th>
+                                <th>Preço Unit.</th>
+                                <th>Total</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="editable-items-tbody">
+                            <!-- Itens editáveis carregados aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-footer mt-4" style="display:flex; justify-content:space-between; align-items:center;">
+                    <h4 id="edit-modal-total">Total: R$ 0,00</h4>
+                    <button id="add-product-to-order-btn" class="btn btn-secondary">Adicionar Produto</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                <button type="button" id="save-order-changes-btn" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL ADICIONAR PRODUTO (Busca para adicionar ao pedido - Manual ou Edição) -->
+    <div id="add-product-modal" class="modal-container hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Adicionar Produto ao Pedido</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-wrapper" style="margin-bottom: 1.5rem;">
+                    <input type="text" id="search-add-product" class="form-control" placeholder="Buscar produto...">
+                </div>
+                <div id="product-list-container" class="table-container" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Lista de produtos carregada aqui -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary cancel-modal-btn">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL FECHAR LOJA (Configuração de tempo) -->
+    <div id="close-store-modal" class="modal-container hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Fechar Loja Temporariamente</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Seus clientes não poderão fazer pedidos enquanto a loja estiver fechada.</p>
+                
+                <div class="form-group mt-4">
+                    <label>Opções de Fechamento:</label>
+                    <div class="radio-group-container">
+                        <label class="radio-card">
+                            <input type="radio" name="close-option" value="indefinite" checked>
+                            <div class="radio-card-content">
+                                <span class="radio-title">Fechar por tempo indeterminado</span>
+                                <span class="radio-description">Vou abrir manualmente depois.</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="close-option" value="scheduled">
+                            <div class="radio-card-content">
+                                <span class="radio-title">Reabrir automaticamente às:</span>
+                                <input type="time" id="reopen-time" class="form-control mt-2" disabled>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                <button type="button" id="confirm-close-store-btn" class="btn btn-danger">Confirmar Fechamento</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. MODAL CRIAR PEDIDO MANUAL (NOVO) -->
+    <div id="manual-order-modal" class="modal-container hidden">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2>Novo Pedido Manual</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Dados do Cliente -->
+                <div class="form-group">
+                    <label>Nome do Cliente:</label>
+                    <input type="text" id="manual-client-name" class="form-control" placeholder="Ex: João Silva">
+                </div>
+                <div class="form-group">
+                    <label>Telefone (WhatsApp):</label>
+                    <input type="text" id="manual-client-phone" class="form-control" placeholder="Ex: 47999999999">
+                </div>
+                
+                <div class="form-group">
+                    <label>Tipo de Entrega:</label>
+                    <div class="radio-group-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <label class="radio-card">
+                            <input type="radio" name="manual-delivery-type" value="entrega" checked>
+                            <div class="radio-card-content">🛵 Entrega</div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="manual-delivery-type" value="retirada">
+                            <div class="radio-card-content">🛍️ Retirada</div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="manual-address-group">
+                    <label>Endereço / Bairro:</label>
+                    <input type="text" id="manual-address" class="form-control" placeholder="Rua, Número, Bairro...">
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pagamento:</label>
+                    <select id="manual-payment" class="form-control">
+                        <option value="Dinheiro">💵 Dinheiro</option>
+                        <option value="Pix">💠 Pix</option>
+                        <option value="Cartão Crédito">💳 Cartão Crédito</option>
+                        <option value="Cartão Débito">💳 Cartão Débito</option>
+                    </select>
+                </div>
+
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                <!-- Itens -->
+                <h4>Itens do Pedido</h4>
+                <div class="table-container" style="max-height: 200px; overflow-y: auto; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px;">Item</th>
+                                <th style="padding: 8px;">Qtd</th>
+                                <th style="padding: 8px;">Preço</th>
+                                <th style="padding: 8px;">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="manual-items-tbody">
+                            <!-- Itens adicionados aparecem aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button type="button" id="manual-add-product-btn" class="btn btn-secondary" style="width: 100%;">
+                    + Adicionar Produto
+                </button>
+
+                <div style="margin-top: 20px; text-align: right; font-size: 1.2rem;">
+                    Total: <strong id="manual-total-display" style="color: var(--success-color);">R$ 0,00</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel-modal-btn">Cancelar</button>
+                <button type="button" id="save-manual-order-btn" class="btn btn-primary">Criar Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ELEMENTO DE ÁUDIO (Som do Google para garantir estabilidade) -->
+    <audio id="notification-sound" preload="auto">
+        <source src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" type="audio/ogg">
+    </audio>
+
+    <!-- SCRIPTS -->
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Módulos JS -->
+    <script type="module" src="./js/firebase-config.js"></script>
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/pedidos.js"></script>
+    <script type="module" src="./js/ui.js"></script>
+
+</body>
+</html>

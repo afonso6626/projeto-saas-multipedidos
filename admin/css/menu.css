@@ -1,0 +1,309 @@
+/* VARIAVEIS E RESET */
+:root {
+    --bg-body: #f4f4f8; /* Fundo claro é mais comum em apps de comida, mas vamos manter escuro se preferir, vou fazer um hibrido moderno */
+    --bg-surface: #ffffff;
+    --bg-dark: #121212;
+    --bg-surface-dark: #1E1E1E;
+    
+    --primary: #EA1D2C; 
+    --green: #00A55A;
+    --text-main: #333333;
+    --text-sec: #717171;
+    --border: #eeeeee;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-body: #121212;
+        --bg-surface: #1E1E1E;
+        --text-main: #ffffff;
+        --text-sec: #a0a0a0;
+        --border: #333333;
+    }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 80px; } /* Padding para nav bar */
+
+.container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+.hidden { display: none !important; }
+.txt-green { color: var(--green) !important; font-weight: 700; }
+.mt-3 { margin-top: 15px; }
+.text-center { text-align: center; }
+
+/* === HEADER CAPA === */
+/* === HEADER CAPA === */
+.app-header { 
+    background: var(--bg-surface); 
+    padding-bottom: 15px; 
+    margin-bottom: 10px; 
+    box-shadow: var(--shadow); 
+    position: relative; /* Garante que o z-index funcione */
+}
+
+.header-cover { 
+    height: 140px; 
+    background-color: #333; 
+    background-size: cover; 
+    background-position: center; 
+    position: relative; 
+}
+
+/* Adiciona um degrade preto no banner para o texto branco aparecer se estiver la em cima */
+.header-cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    pointer-events: none;
+}
+
+.header-content { 
+    margin-top: -50px; /* Sobe a caixa branca */
+    position: relative; 
+    z-index: 10; /* Garante que fique NA FRENTE do banner */
+    padding: 0 16px; /* Margem lateral */
+}
+
+.store-profile { 
+    display: flex; 
+    align-items: flex-end; 
+    gap: 15px; 
+}
+
+.logo-box { 
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
+    border: 4px solid var(--bg-surface); /* Borda branca em volta da logo */
+    background: white; 
+    overflow: hidden; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+    flex-shrink: 0; /* Não deixa a logo amassar */
+}
+
+.store-details {
+    padding-bottom: 5px; /* Alinha com a logo */
+    /* Garante que o texto tenha cor legível */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Ajuste para telas muito pequenas */
+@media (max-width: 360px) {
+    .store-profile { flex-direction: column; align-items: center; text-align: center; margin-top: -30px; }
+    .header-content { margin-top: -30px; }
+}
+.store-profile { display: flex; align-items: flex-end; gap: 15px; }
+.logo-box { width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--bg-surface); background: white; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.logo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+.store-details h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.store-badges { display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.75rem; }
+.status-pill { padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.status-pill.open { background: #e5f7ed; color: var(--green); }
+.status-pill.closed { background: #fceeee; color: var(--primary); }
+.delivery-pill, .rating-pill { display: flex; align-items: center; gap: 3px; color: var(--text-sec); font-weight: 500; }
+.delivery-pill span.material-icons-round { font-size: 14px; }
+.rating-pill { color: #fcbb00; }
+
+.store-info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+.info-item { background: var(--bg-body); padding: 10px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.info-item .label { font-size: 0.7rem; color: var(--text-sec); text-transform: uppercase; }
+.info-item .val { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+
+/* === BUSCA === */
+.search-box { background: var(--bg-surface); padding: 12px 15px; border-radius: 8px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin: 15px 0; }
+.search-box input { border: none; background: transparent; width: 100%; font-size: 0.95rem; color: var(--text-main); outline: none; }
+.search-box .material-icons-round { color: var(--primary); }
+
+/* === NAV CATEGORIAS (STICKY) === */
+.nav-sticky-wrapper { position: sticky; top: 0; z-index: 80; background: var(--bg-body); padding: 10px 0; box-shadow: 0 4px 10px -5px rgba(0,0,0,0.1); transition: background 0.2s; }
+.category-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.cat-btn { background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-sec); padding: 8px 16px; border-radius: 20px; font-weight: 500; font-size: 0.9rem; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+.cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(234,29,44,0.2); }
+
+/* === LISTA PRODUTOS === */
+.category-title { margin: 25px 0 15px 0; font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+.product-card { background: var(--bg-surface); border-radius: 10px; padding: 12px; display: flex; gap: 12px; border: 1px solid var(--border); margin-bottom: 12px; cursor: pointer; position: relative; transition: transform 0.1s; }
+.product-card:active { transform: scale(0.98); }
+.product-card.disabled { opacity: 0.6; filter: grayscale(0.8); }
+
+.prod-img-box { width: 100px; height: 85px; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+.prod-img-box img { width: 100%; height: 100%; object-fit: cover; }
+.prod-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.prod-title { font-size: 0.95rem; font-weight: 600; color: var(--text-main); line-height: 1.2; margin-bottom: 4px; }
+.prod-desc { font-size: 0.8rem; color: var(--text-sec); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; line-height: 1.3; }
+.prod-price { font-size: 0.95rem; font-weight: 700; color: var(--green); }
+
+/* === BOTTOM NAVIGATION === */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: var(--bg-surface); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 90; padding-bottom: env(safe-area-inset-bottom); }
+.nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999; font-size: 0.7rem; font-weight: 500; cursor: pointer; width: 100%; height: 100%; transition: 0.2s; position: relative; }
+.nav-item span.material-icons-round { font-size: 24px; margin-bottom: 2px; }
+.nav-item.active { color: var(--primary); }
+/* Botão Sacola FLUTUANTE (FAB style) */
+.cart-fab { position: absolute; top: -25px; background: var(--primary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(234,29,44,0.4); color: white; border: 4px solid var(--bg-body); transition: 0.2s; }
+.nav-item.relative:active .cart-fab { transform: scale(0.9); }
+#cart-count-badge { position: absolute; top: -2px; right: -2px; background: #fff; color: var(--primary); font-weight: 700; font-size: 0.75rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--primary); }
+
+/* === MODAIS E UI GERAL === */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 100; display: flex; align-items: flex-end; justify-content: center; }
+@media(min-width: 768px) { .modal-overlay { align-items: center; } }
+
+.modal-content { background: var(--bg-surface); width: 100%; max-width: 500px; border-radius: 20px 20px 0 0; max-height: 95vh; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.3s ease-out; }
+.full-screen-modal { height: 100vh; max-height: 100vh; border-radius: 0; }
+
+.modal-header-simple { padding: 15px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-header-simple h2 { font-size: 1.1rem; color: var(--text-main); }
+.close-btn-simple { background: #f0f0f0; color: #333; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.modal-scroll-area { flex: 1; overflow-y: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
+.modal-footer-fixed { padding: 15px 20px; background: var(--bg-surface); border-top: 1px solid var(--border); padding-bottom: max(15px, env(safe-area-inset-bottom)); display: flex; gap: 15px; }
+
+/* Modal Produto */
+.modal-hero-image { height: 220px; width: 100%; position: relative; background: #ddd; flex-shrink: 0; }
+.modal-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.close-btn-icon { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; width: 36px; height: 36px; border-radius: 50%; border:none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.btn-primary { flex: 1; background: var(--primary); color: white; height: 50px; border-radius: 12px; border: none; font-weight: 600; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; cursor: pointer; transition: 0.2s; }
+.btn-primary:active { background: #c01522; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* Opções do Produto */
+.option-item { background: var(--bg-body); border: 1px solid transparent; border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.option-item.selected { border-color: var(--primary); background: rgba(234,29,44,0.05); }
+.qty-control { display: flex; align-items: center; background: var(--bg-body); border-radius: 10px; height: 50px; padding: 0 5px; }
+.qty-control button { width: 35px; height: 100%; border: none; background: none; color: var(--primary); font-size: 1.5rem; cursor: pointer; }
+.qty-control input { width: 30px; border: none; background: transparent; text-align: center; font-weight: 600; color: var(--text-main); font-size: 1rem; }
+
+/* Carrinho */
+.cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+.coupon-section { margin: 20px 0; background: rgba(0, 165, 90, 0.05); padding: 10px; border-radius: 8px; border: 1px dashed var(--green); }
+.flex-row { display: flex; align-items: center; gap: 10px; }
+.input-wrapper .icon-prefix { color: var(--green); }
+#btn-apply-coupon { background: transparent; color: var(--green); font-weight: 700; border: none; cursor: pointer; }
+.auth-alert { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; display: flex; gap: 10px; align-items: center; font-size: 0.85rem; cursor: pointer; border: 1px solid #ffeeba; margin-bottom: 15px; }
+
+/* Perfil & Login */
+.login-header { text-align: center; margin-bottom: 30px; }
+.user-card { background: var(--primary); color: white; padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+.user-avatar { width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.btn-logout-icon { background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; opacity: 0.8; margin-left: auto; }
+
+.loyalty-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.loyalty-header { display: flex; align-items: center; gap: 6px; color: #d4a017; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; font-size: 0.8rem; }
+.loyalty-body { text-align: center; }
+.loyalty-body h2 { font-size: 2.5rem; color: var(--text-main); margin: 0; line-height: 1; }
+.progress-bar { height: 6px; background: #eee; border-radius: 3px; margin: 10px 0; overflow: hidden; }
+.progress-fill { height: 100%; background: #d4a017; border-radius: 3px; }
+
+.input-wrapper { margin-bottom: 15px; width: 100%; }
+.styled-input { width: 100%; padding: 14px; border: 1px solid var(--border); background: var(--bg-body); border-radius: 10px; font-size: 1rem; color: var(--text-main); outline: none; }
+.btn-outline-map { width: 100%; padding: 12px; border: 1px solid var(--text-sec); color: var(--text-main); border-radius: 10px; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+/* Adicione ou certifique-se que este estilo existe no final do arquivo */
+/* Adicione no final do arquivo css/menu.css */
+#leaflet-map {
+    width: 100%;
+    height: 300px !important; /* Importante para forçar altura */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    z-index: 1;
+    background-color: #e5e3df; /* Cor de fundo enquanto carrega */
+}
+
+.map-container-wrapper {
+    position: relative;
+    height: auto;
+    min-height: 300px;
+}
+.close-modal-btn {
+    z-index: 1000; /* Traz para frente de tudo */
+    cursor: pointer;
+    position: absolute; /* Garante posicionamento */
+}
+/* ADICIONE ISTO NO FINAL DO SEU menu.css */
+
+#leaflet-map {
+    width: 100%;
+    height: 300px !important; /* O "!important" força a altura */
+    min-height: 300px;        /* Garante que não encolha */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    z-index: 1;
+    background-color: #e5e3df;
+    display: block;           /* Garante que o elemento ocupe espaço */
+}
+
+.map-container-wrapper {
+    position: relative;
+    height: auto;
+    min-height: 300px;
+    display: block;
+}
+
+/* Garante que o modal do mapa tenha tamanho suficiente */
+.map-modal-content {
+    height: auto;
+    min-height: 500px;
+}
+/* ESTILOS DE LOGIN E CADASTRO (MULTIPEDIDOS STYLE) */
+.btn-google {
+    width: 100%;
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+    margin-bottom: 20px;
+}
+.btn-google:active { background: #f5f5f5; }
+.btn-google img { width: 20px; height: 20px; }
+
+.divider-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #888;
+    margin: 20px 0;
+    font-size: 0.9rem;
+}
+.divider-text::before, .divider-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #eee;
+}
+.divider-text::before { margin-right: 10px; }
+.divider-text::after { margin-left: 10px; }
+
+.link-action {
+    color: var(--text-sec);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed #ccc;
+}
+
+.footer-link {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
