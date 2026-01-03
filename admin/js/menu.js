@@ -763,7 +763,7 @@ async function handleCheckout(e) {
     };
 
     try {
-        const res = await fetch('http://localhost:3000/api/criar-pedido', {
+        const res = await fetch('/api/criar-pedido', {
             method: 'POST', 
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({ lojaId: state.lojaId, pedido: orderData })

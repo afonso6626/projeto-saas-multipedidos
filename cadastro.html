@@ -46,7 +46,7 @@
 
             try {
                 // AQUI A MÁGICA: O site pede para o servidor criar a loja
-                const response = await fetch('http://localhost:3000/api/admin/criar-loja', {
+                const response = await fetch('/api/admin/criar-loja', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dados)

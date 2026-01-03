@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoader();
         try {
             // Chama o seu Backend (Server.js)
-            const response = await fetch('http://localhost:3000/api/admin/criar-funcionario', {
+            const response = await fetch('/api/admin/criar-funcionario', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
