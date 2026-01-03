@@ -6,18 +6,77 @@
     <title>Login | Painel Administrativo</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/style.css">
+
+    <!-- CSS PARA OS NOVOS ELEMENTOS -->
+    <style>
+        /* CSS DA NOTA DE TESTE (AMARELA) */
+        .demo-note {
+            background-color: #fff3cd;   /* Fundo amarelo claro */
+            color: #856404;              /* Texto amarelo escuro/marrom */
+            border: 1px solid #ffeeba;   /* Borda sutil */
+            padding: 10px;               /* Espaçamento interno */
+            border-radius: 8px;          /* Cantos arredondados */
+            font-size: 0.85rem;          /* Fonte pequena */
+            margin-bottom: 20px;         /* Empurra o formulário para baixo */
+            text-align: center;          /* Centraliza o texto */
+            line-height: 1.5;            /* Altura da linha para ler melhor */
+        }
+        
+        .demo-note strong {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: block;              /* Quebra a linha depois do título */
+            margin-bottom: 2px;
+        }
+
+        /* CSS DA ÁREA DE CADASTRO (LÁ EMBAIXO) */
+        .signup-area {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .signup-area span {
+            margin-right: 5px;
+        }
+
+        .signup-area a {
+            color: var(--primary-color, #6c5ce7);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .signup-area a:hover {
+            text-decoration: underline;
+            color: #5a4ad1;
+        }
+    </style>
 </head>
 <body>
     <div id="loader" class="loader-container hidden">
         <div class="loader"></div>
     </div>
 
-    <!-- AQUI ESTÁ O SEGREDO: A login-container segura tudo no centro -->
     <div class="login-container">
-        <!-- E a login-box é o cartão branco (ou cinza escuro) que limita a largura -->
         <div class="login-box">
-            <h2>Painel da Lanchonete</h2>
+            <h2>Painel da Lanchonete - teste </h2>
             <p>Faça login para gerenciar seu negócio</p>
+
+            <!-- AQUI ESTÁ A NOTINHA PARA TESTADORES -->
+            <div class="demo-note">
+                <strong>Acesso de Demonstração</strong>
+                Email: <b>teste@gmail.com</b><br>
+                Senha: <b>123456</b>
+            </div>
             
             <form id="login-form">
                 <div class="form-group">
@@ -31,9 +90,14 @@
                 
                 <button type="submit" id="loginButton" class="btn-primary" style="width: 100%;">Entrar</button>
                 
-                <!-- Link de recuperar senha -->
                 <div style="margin-top: 15px; text-align: center;">
                     <a href="#" id="btn-forgot-password" style="color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">Esqueci minha senha</a>
+                </div>
+
+                <!-- ÁREA DE CADASTRO -->
+                <div class="signup-area">
+                    <span>Quer cadastrar sua loja?</span>
+                    <a href="cadastro.html">Cadastre-se aqui</a>
                 </div>
 
                 <p id="error-message" class="error-message"></p>
@@ -41,13 +105,14 @@
         </div>
     </div>
 
-    <!-- MODAL DE RECUPERAÇÃO DE SENHA (Fica fora do container principal) -->
+    <!-- MODAL DE RECUPERAÇÃO DE SENHA -->
     <div id="forgot-password-modal" class="modal-container hidden">
         <div class="modal">
             <div class="modal-header">
                 <h2>Recuperar Senha</h2>
                 <button class="close-modal-btn">&times;</button>
             </div>
+            
             <form id="forgot-password-form">
                 <div class="modal-body">
                     <p style="margin-bottom: 15px; color: var(--text-light);">Digite seu e-mail para receber um link de redefinição.</p>
@@ -63,7 +128,7 @@
             </form>
         </div>
     </div>
-
+ 
     <!-- Scripts do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
